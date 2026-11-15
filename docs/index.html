@@ -111,6 +111,7 @@
         <a href="#features">Features</a>
         <a href="#tools">Tools</a>
         <a href="#install">Install</a>
+        <a href="#use">Use it</a>
         <a href="#assistant">Assistant</a>
         <a href="https://github.com/mnavas/recipe-mcp">GitHub</a>
         <a href="https://mnavas.github.io">Developer</a>
@@ -163,7 +164,8 @@ pip install -e .
 <span class="c"># a model for the assistant</span>
 ollama pull gemma3n
 
-<span class="c"># run the server (stdio)</span>
+<span class="c"># start the server — it waits silently</span>
+<span class="c"># for an MCP client to connect (see below)</span>
 python -m recipe_mcp</pre>
         </div>
         <div>
@@ -181,6 +183,61 @@ python -m recipe_mcp</pre>
 }</pre>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="use">
+    <div class="wrap">
+      <h2>How to use it</h2>
+      <p class="sub">recipe-mcp is a <b>backend for an AI assistant</b>, not an app you run by hand. <code style="background:var(--code-bg);padding:2px 6px;border-radius:6px;font-family:ui-monospace,monospace">python&nbsp;-m&nbsp;recipe_mcp</code> starts it and then waits silently — that's correct. It does nothing until an MCP client connects and calls its tools. You then just talk to that client in plain language.</p>
+
+      <div class="grid" style="margin-bottom:22px">
+        <div class="card"><div class="ic">1️⃣</div><h3>Terminal (no client)</h3><p>A built-in CLI runs the same conversions directly — the quickest way to see it work.</p></div>
+        <div class="card"><div class="ic">2️⃣</div><h3>Claude Code</h3><p>Register once with <code style="font-family:ui-monospace,monospace">claude mcp add</code>, then ask in chat and it calls the tools.</p></div>
+        <div class="card"><div class="ic">3️⃣</div><h3>Claude Desktop</h3><p>Add it to the config file with the venv's Python path, restart, and the tools appear.</p></div>
+      </div>
+
+      <div class="cols">
+        <div>
+<pre><span class="c"># 1 · straight from the terminal</span>
+recipe-mcp-cli convert 2 cup ml
+<span class="c">#   → 2.0 cup = 473.2 ml</span>
+recipe-mcp-cli vtow <span class="k">"table salt"</span> 1 tbsp g
+<span class="c">#   → 1 tbsp salt = 18.04 g</span>
+recipe-mcp-cli ask <span class="k">"why weigh flour?"</span>
+
+<span class="c"># 2 · Claude Code (then just ask in chat)</span>
+claude mcp add recipe -- \
+  /PATH/recipe-mcp/.venv/bin/python -m recipe_mcp</pre>
+        </div>
+        <div>
+<pre><span class="c">// 3 · Claude Desktop config</span>
+<span class="c">// ~/.config/Claude/claude_desktop_config.json</span>
+{
+  <span class="k">"mcpServers"</span>: {
+    <span class="k">"recipe"</span>: {
+      <span class="k">"command"</span>: <span class="k">"/PATH/.venv/bin/python"</span>,
+      <span class="k">"args"</span>: [<span class="k">"-m"</span>, <span class="k">"recipe_mcp"</span>]
+    }
+  }
+}
+
+<span class="c"># inspect every tool in a browser (optional)</span>
+npx @modelcontextprotocol/inspector \
+  .venv/bin/python -m recipe_mcp</pre>
+        </div>
+      </div>
+
+      <p class="sub" style="margin-top:24px;margin-bottom:10px"><b>Then just ask your assistant:</b></p>
+      <div class="tools">
+        <div class="tool"><span>“How many grams is 1 tbsp of table salt?”</span></div>
+        <div class="tool"><span>“Scale this recipe from 8 to 12 servings.”</span></div>
+        <div class="tool"><span>“Turn this into baker's percentages.”</span></div>
+        <div class="tool"><span>“Apply these percentages to 500 g flour.”</span></div>
+        <div class="tool"><span>“Give me a 3:2:1 shortbread for 600 g.”</span></div>
+        <div class="tool"><span>“How much does 1 cup of butter weigh?”</span></div>
+      </div>
+      <p class="note" style="margin-top:16px">Note: the bundled <code style="font-family:ui-monospace,monospace">mcp install</code> / <code style="font-family:ui-monospace,monospace">mcp dev</code> helpers need <code style="font-family:ui-monospace,monospace">uv</code>; the commands above work with a plain venv.</p>
     </div>
   </section>
 
