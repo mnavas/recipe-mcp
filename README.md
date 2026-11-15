@@ -90,6 +90,12 @@ vary with packing, so treat them as close approximations. Extend or override the
 with your own JSON file via `densities_override` (accepts `{"ingredients": {...}}`
 or a flat `{name: density}` map).
 
+## Documentation
+
+- [docs/EXAMPLES.md](docs/EXAMPLES.md) — every tool with worked example calls and outputs.
+- [docs/CONFIGURATION.md](docs/CONFIGURATION.md) — all settings, config file, custom densities.
+- [docs/index.html](docs/index.html) — project landing page (also serves via GitHub Pages).
+
 ## Tests
 
 ```bash
@@ -108,5 +114,10 @@ recipe_mcp/
   assistant.py    Ollama cooking assistant
   config.py       settings (env / config.json / defaults)
 data/densities.json
+docs/             landing page + EXAMPLES.md + CONFIGURATION.md
 tests/
 ```
+
+## License
+
+MIT — see [LICENSE](LICENSE).

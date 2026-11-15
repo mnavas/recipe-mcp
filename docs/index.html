@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>recipe-mcp — a local MCP server for the kitchen</title>
+<meta name="description" content="A local Model Context Protocol server for recipe unit conversion, weight/volume density, scaling, baker's percentages, and a private Ollama cooking assistant.">
+<style>
+  :root{
+    --bg:#fbf7f0; --panel:#ffffff; --ink:#201a14; --muted:#6b5d4b;
+    --line:#ece3d5; --accent:#e08a1e; --accent-ink:#8a4b00; --code:#2b2016;
+    --code-bg:#f4ecdf; --shadow:0 1px 2px rgba(60,40,10,.05),0 8px 24px rgba(60,40,10,.06);
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#17130d; --panel:#1f1a12; --ink:#f3ebdd; --muted:#b0a089;
+      --line:#2e2619; --accent:#f0a843; --accent-ink:#f8d89a; --code:#e7dcc8;
+      --code-bg:#241d13; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+
+  /* nav */
+  header{position:sticky;top:0;z-index:10;backdrop-filter:blur(8px);
+    background:color-mix(in srgb,var(--bg) 82%,transparent);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;gap:8px;height:62px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.01em}
+  .brand .dot{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
+    background:var(--accent);color:#2b1a00;font-size:16px}
+  nav .spacer{flex:1}
+  nav .links{display:flex;gap:4px;align-items:center}
+  nav .links a{padding:8px 12px;border-radius:9px;color:var(--muted);font-size:14.5px;font-weight:500}
+  nav .links a:hover{color:var(--ink);background:var(--line)}
+  nav .links a.cta{color:#2b1a00;background:var(--accent);font-weight:600}
+  nav .links a.cta:hover{filter:brightness(1.05)}
+  .menu-btn{display:none}
+
+  /* hero */
+  .hero{padding:72px 0 40px}
+  .pill{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;
+    color:var(--accent-ink);background:color-mix(in srgb,var(--accent) 16%,transparent);
+    border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);padding:5px 12px;border-radius:999px}
+  .hero h1{font-size:clamp(34px,6vw,54px);line-height:1.04;letter-spacing:-.025em;margin:18px 0 0;font-weight:800}
+  .hero h1 em{font-style:normal;color:var(--accent)}
+  .hero p.lead{font-size:clamp(17px,2.4vw,20px);color:var(--muted);max-width:620px;margin:18px 0 0}
+  .hero .btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+  .btn{padding:12px 20px;border-radius:11px;font-weight:600;font-size:15px;border:1px solid var(--line)}
+  .btn.primary{background:var(--accent);color:#2b1a00;border-color:transparent}
+  .btn.ghost{background:var(--panel);color:var(--ink)}
+  .btn:hover{transform:translateY(-1px)}
+  .note{margin-top:16px;font-size:13.5px;color:var(--muted)}
+  .note b{color:var(--ink)}
+
+  /* sections */
+  section{padding:46px 0;border-top:1px solid var(--line)}
+  h2{font-size:clamp(24px,3.4vw,32px);letter-spacing:-.02em;margin:0 0 6px;font-weight:800}
+  .sub{color:var(--muted);margin:0 0 26px;max-width:620px}
+
+  .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
+  .card .ic{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:20px;
+    background:color-mix(in srgb,var(--accent) 14%,transparent);margin-bottom:12px}
+  .card h3{margin:0 0 6px;font-size:17px;letter-spacing:-.01em}
+  .card p{margin:0;color:var(--muted);font-size:14.5px}
+
+  /* code */
+  pre{background:var(--code-bg);color:var(--code);border:1px solid var(--line);border-radius:14px;
+    padding:18px 20px;overflow:auto;font:13.5px/1.7 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  pre .c{color:var(--muted)}
+  pre .k{color:var(--accent-ink);font-weight:600}
+
+  /* two-col */
+  .cols{display:grid;gap:22px;grid-template-columns:1fr 1fr;align-items:start}
+  @media (max-width:760px){.cols{grid-template-columns:1fr}}
+
+  /* tools */
+  .tools{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+  .tool{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .tool code{font:13px ui-monospace,monospace;color:var(--accent-ink);font-weight:600}
+  .tool span{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+
+  footer{border-top:1px solid var(--line);padding:30px 0 50px;color:var(--muted);font-size:14px}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  footer .spacer{flex:1}
+  footer a{color:var(--accent-ink);font-weight:600}
+
+  @media (max-width:640px){
+    nav .links{display:none}
+    nav .links.open{display:flex;position:absolute;top:62px;left:0;right:0;flex-direction:column;
+      background:var(--panel);border-bottom:1px solid var(--line);padding:10px 16px;gap:2px}
+    .menu-btn{display:grid;place-items:center;width:40px;height:40px;border-radius:9px;
+      border:1px solid var(--line);background:var(--panel);font-size:18px;cursor:pointer}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="#top"><span class="dot">🍯</span> recipe-mcp</a>
+      <span class="spacer"></span>
+      <div class="links" id="links">
+        <a href="#features">Features</a>
+        <a href="#tools">Tools</a>
+        <a href="#install">Install</a>
+        <a href="#assistant">Assistant</a>
+        <a href="https://github.com/mnavas/recipe-mcp">GitHub</a>
+        <a href="https://mnavas.github.io">Developer</a>
+        <a class="cta" href="#install">Get started</a>
+      </div>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <span class="pill">● Runs 100% on your machine</span>
+    <h1>The kitchen math layer for your <em>AI assistant</em>.</h1>
+    <p class="lead">recipe-mcp is a local <a href="https://modelcontextprotocol.io" style="color:var(--accent-ink);font-weight:600">Model Context Protocol</a> server. It gives Claude — or any MCP client — reliable tools for unit conversion, ingredient weight⇄volume, recipe scaling, baker's percentages, and a private cooking assistant powered by your own Ollama models.</p>
+    <div class="btns">
+      <a class="btn primary" href="#install">Get started →</a>
+      <a class="btn ghost" href="https://github.com/mnavas/recipe-mcp">View on GitHub</a>
+    </div>
+    <p class="note">Python · <b>17 tools</b> · no API keys · no data leaves your computer</p>
+  </div>
+
+  <section id="features">
+    <div class="wrap">
+      <h2>What it does</h2>
+      <p class="sub">Five things LLMs are bad at doing in their head — made exact.</p>
+      <div class="grid">
+        <div class="card"><div class="ic">⚖️</div><h3>Unit conversion</h3><p>Weight (mg · g · kg · oz · lb · stone) and volume (ml · l · cup · tbsp · tsp · fl oz) with US, metric and imperial variants.</p></div>
+        <div class="card"><div class="ic">🧂</div><h3>Weight ⇄ volume</h3><p>A bulk-density table for ~28 common ingredients. “How many grams is 1 tbsp of salt?” when your scale isn't precise to the gram.</p></div>
+        <div class="card"><div class="ic">📐</div><h3>Scaling</h3><p>Rescale a whole recipe by a factor or by changing the yield — 8 servings to 12 — keeping every amount in proportion.</p></div>
+        <div class="card"><div class="ic">🥖</div><h3>Baker's percentages</h3><p>Flour = 100%, everything relative to flour. Read a formula from a recipe, or turn a formula into weights for any batch size.</p></div>
+        <div class="card"><div class="ic">🧮</div><h3>Ratios &amp; percentages</h3><p>Solve ratios like 3:2:1 from a total or one known amount, and express any ingredient list as a share of total weight.</p></div>
+        <div class="card"><div class="ic">🤖</div><h3>Local assistant</h3><p>Ask cooking questions answered by an Ollama model running on your machine. Configurable model, host and temperature.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="install">
+    <div class="wrap">
+      <h2>Install &amp; run</h2>
+      <p class="sub">Python 3.10+. Needs <a href="https://ollama.com" style="color:var(--accent-ink);font-weight:600">Ollama</a> only for the assistant tools.</p>
+      <div class="cols">
+        <div>
+<pre><span class="c"># clone &amp; set up</span>
+git clone https://github.com/mnavas/recipe-mcp
+cd recipe-mcp
+python3 -m venv .venv &amp;&amp; <span class="k">source</span> .venv/bin/activate
+pip install -e .
+
+<span class="c"># a model for the assistant</span>
+ollama pull gemma3n
+
+<span class="c"># run the server (stdio)</span>
+python -m recipe_mcp</pre>
+        </div>
+        <div>
+<pre><span class="c">// register with an MCP client</span>
+{
+  <span class="k">"mcpServers"</span>: {
+    <span class="k">"recipe"</span>: {
+      <span class="k">"command"</span>: ".venv/bin/python",
+      <span class="k">"args"</span>: [<span class="k">"-m"</span>, <span class="k">"recipe_mcp"</span>],
+      <span class="k">"env"</span>: {
+        <span class="k">"RECIPE_MCP_MODEL"</span>: <span class="k">"gemma3n:latest"</span>
+      }
+    }
+  }
+}</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tools">
+    <div class="wrap">
+      <h2>The 17 tools</h2>
+      <p class="sub">Each is a typed MCP tool your client can call directly.</p>
+      <div class="tools">
+        <div class="tool"><code>convert_weight</code><span>mg·g·kg·oz·lb·stone</span></div>
+        <div class="tool"><code>convert_volume</code><span>ml·cup·tbsp·tsp·fl oz</span></div>
+        <div class="tool"><code>list_units</code><span>every supported unit</span></div>
+        <div class="tool"><code>list_ingredients</code><span>browse the density table</span></div>
+        <div class="tool"><code>ingredient_density</code><span>g/ml for one ingredient</span></div>
+        <div class="tool"><code>weight_to_volume</code><span>e.g. 10 g salt → ml</span></div>
+        <div class="tool"><code>volume_to_weight</code><span>e.g. 1 tbsp salt → g</span></div>
+        <div class="tool"><code>scale_recipe</code><span>by factor or yield</span></div>
+        <div class="tool"><code>recipe_to_percentages</code><span>% of total weight</span></div>
+        <div class="tool"><code>bakers_percentages</code><span>flour = 100%</span></div>
+        <div class="tool"><code>apply_bakers_percentages</code><span>formula → weights</span></div>
+        <div class="tool"><code>solve_ratio</code><span>e.g. 3:2:1</span></div>
+        <div class="tool"><code>cooking_assistant</code><span>ask the local model</span></div>
+        <div class="tool"><code>assistant_models</code><span>installed Ollama models</span></div>
+        <div class="tool"><code>assistant_health</code><span>is Ollama reachable?</span></div>
+        <div class="tool"><code>get_config</code><span>view settings</span></div>
+        <div class="tool"><code>set_config</code><span>change model/host/temp</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="assistant">
+    <div class="wrap">
+      <h2>A private cooking assistant</h2>
+      <p class="sub">The assistant tools call Ollama on your own hardware — nothing is sent to a cloud API. Point it at any installed model.</p>
+      <div class="cols">
+        <div>
+<pre><span class="c"># ask (via your MCP client)</span>
+cooking_assistant(
+  question=<span class="k">"Why weigh flour instead of cups?"</span>
+)
+<span class="c"># → "Cup measures vary with how flour is
+#    packed; weighing in grams is consistent."</span></pre>
+        </div>
+        <div>
+<pre><span class="c"># configure once</span>
+set_config(
+  model=<span class="k">"llama3.1"</span>,
+  temperature=0.3,
+  persist=<span class="k">true</span>
+)</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Documentation</h2>
+      <p class="sub">Full tool reference, worked examples, and configuration.</p>
+      <div class="btns">
+        <a class="btn primary" href="https://github.com/mnavas/recipe-mcp#readme">README</a>
+        <a class="btn ghost" href="https://github.com/mnavas/recipe-mcp/blob/main/docs/EXAMPLES.md">Examples</a>
+        <a class="btn ghost" href="https://github.com/mnavas/recipe-mcp/blob/main/docs/CONFIGURATION.md">Configuration</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>🍯 recipe-mcp · MIT · built locally</span>
+    <span class="spacer"></span>
+    <a href="https://github.com/mnavas/recipe-mcp">GitHub</a>
+    <a href="https://mnavas.github.io">Developer</a>
+  </div>
+</footer>
+
+<script>
+  var b=document.getElementById('menuBtn'),l=document.getElementById('links');
+  b&&b.addEventListener('click',function(){l.classList.toggle('open')});
+  l&&l.addEventListener('click',function(e){if(e.target.tagName==='A')l.classList.remove('open')});
+</script>
+</body>
+</html>

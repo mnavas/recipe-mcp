@@ -1,8 +1,35 @@
+# envs / build / caches
 .venv/
+venv/
 __pycache__/
 *.pyc
 *.egg-info/
 build/
 dist/
 .pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# local runtime config (holds model/host settings)
 config.json
+
+# planning / scratch / non-relevant working files (not part of the project)
+PLAN.md
+PLANNING.md
+NOTES.md
+notes/
+planning/
+scratch/
+TODO.local.md
+*.plan.md
+*.notes.md
+*.scratch
+*.bak
+*.tmp
+*.log
+
+# editor / OS cruft
+.vscode/
+.idea/
+*.swp
+.DS_Store
