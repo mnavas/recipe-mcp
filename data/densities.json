@@ -1,0 +1,38 @@
+{
+  "_meta": {
+    "unit": "g/ml",
+    "note": "Bulk (scooped) densities tuned to common cooking references, NOT material density. 1 US cup = 236.588 ml; 1 US tsp = 4.92892 ml. Values are approximate; granular ingredients vary with packing. Override or extend via a user densities file.",
+    "sources": "Derived from standard cup/teaspoon weight charts (King Arthur, USDA, common baking references)."
+  },
+  "ingredients": {
+    "water":                 {"density": 1.00, "note": "reference liquid"},
+    "milk":                  {"density": 1.03, "note": "whole milk"},
+    "cream":                 {"density": 1.00, "note": "heavy cream"},
+    "yogurt":                {"density": 1.03, "note": "plain"},
+    "vegetable oil":         {"density": 0.92, "note": "neutral oil"},
+    "olive oil":             {"density": 0.91},
+    "butter":                {"density": 0.96, "note": "1 cup ~ 227 g (packed stick)"},
+    "honey":                 {"density": 1.42},
+    "maple syrup":           {"density": 1.33},
+    "molasses":              {"density": 1.45},
+    "table salt":            {"density": 1.22, "note": "fine; 1 tsp ~ 6 g"},
+    "kosher salt diamond":   {"density": 0.58, "note": "Diamond Crystal; 1 tsp ~ 2.8 g"},
+    "kosher salt morton":    {"density": 0.96, "note": "Morton; 1 tsp ~ 4.7 g"},
+    "granulated sugar":      {"density": 0.85, "note": "1 cup ~ 200 g"},
+    "powdered sugar":        {"density": 0.56, "note": "icing sugar; 1 cup ~ 120 g"},
+    "brown sugar":           {"density": 0.93, "note": "packed; 1 cup ~ 220 g"},
+    "all-purpose flour":     {"density": 0.53, "note": "spooned & leveled; 1 cup ~ 125 g"},
+    "bread flour":           {"density": 0.55},
+    "cake flour":            {"density": 0.45, "note": "1 cup ~ 113 g"},
+    "whole wheat flour":     {"density": 0.55},
+    "cornstarch":            {"density": 0.54},
+    "cocoa powder":          {"density": 0.42, "note": "1 cup ~ 100 g"},
+    "baking powder":         {"density": 0.81, "note": "1 tsp ~ 4 g"},
+    "baking soda":           {"density": 0.93, "note": "1 tsp ~ 4.6 g"},
+    "instant yeast":         {"density": 0.63, "note": "1 tsp ~ 3.1 g"},
+    "rolled oats":           {"density": 0.41, "note": "1 cup ~ 97 g"},
+    "white rice":            {"density": 0.85, "note": "uncooked long grain"},
+    "ground coffee":         {"density": 0.38},
+    "chopped nuts":          {"density": 0.57}
+  }
+}
