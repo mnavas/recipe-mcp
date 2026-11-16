@@ -1,0 +1,29 @@
+{
+  "id": "chocolate-chip-cookies",
+  "name": "Chocolate Chip Cookies",
+  "servings": 36,
+  "yield_unit": "cookie",
+  "tags": ["dessert", "baking", "beginner"],
+  "source": "Adapted from the classic Toll House formula (grams)",
+  "ingredients": [
+    {"name": "all-purpose flour", "amount": 280, "unit": "g"},
+    {"name": "baking soda", "amount": 5, "unit": "g"},
+    {"name": "table salt", "amount": 6, "unit": "g"},
+    {"name": "butter", "amount": 227, "unit": "g"},
+    {"name": "granulated sugar", "amount": 150, "unit": "g"},
+    {"name": "brown sugar", "amount": 165, "unit": "g"},
+    {"name": "egg", "amount": 2, "unit": "count"},
+    {"name": "vanilla extract", "amount": 10, "unit": "g"},
+    {"name": "chocolate chips", "amount": 325, "unit": "g"}
+  ],
+  "steps": [
+    "Heat the oven to 190C/375F. Whisk flour, baking soda and salt.",
+    "Cream the softened butter with both sugars until light, 2-3 min.",
+    "Beat in the eggs and vanilla.",
+    "Mix in the dry ingredients until just combined, then fold in the chips.",
+    "Scoop tablespoons onto lined trays, spaced apart.",
+    "Bake 9-11 min until the edges are golden but centres look soft.",
+    "Cool on the tray 5 min, then transfer to a rack."
+  ],
+  "notes": "Makes about 36. Chill the dough 30 min for thicker cookies. Scale by servings for a bigger batch."
+}

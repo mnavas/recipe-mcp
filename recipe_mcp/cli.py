@@ -92,13 +92,15 @@ def _show(args) -> int:
 
 def _import(args) -> int:
     import json
-    data = json.loads(open(args.file, encoding="utf-8").read())
-    r = _store().save(
-        data["name"], data["ingredients"], steps=data.get("steps"),
-        servings=data.get("servings", 1), yield_unit=data.get("yield_unit", "serving"),
-        notes=data.get("notes", ""), tags=data.get("tags"), source=data.get("source", ""),
-        recipe_id=data.get("id"))
-    print(f"saved recipe '{r['id']}'")
+    store = _store()
+    for path in args.files:
+        data = json.loads(open(path, encoding="utf-8").read())
+        r = store.save(
+            data["name"], data["ingredients"], steps=data.get("steps"),
+            servings=data.get("servings", 1), yield_unit=data.get("yield_unit", "serving"),
+            notes=data.get("notes", ""), tags=data.get("tags"), source=data.get("source", ""),
+            recipe_id=data.get("id"))
+        print(f"saved recipe '{r['id']}'")
     return 0
 
 
@@ -144,8 +146,8 @@ def build_parser() -> argparse.ArgumentParser:
     sh.add_argument("recipe_id")
     sh.set_defaults(func=_show)
 
-    im = sub.add_parser("import", help="import a recipe from a JSON file")
-    im.add_argument("file")
+    im = sub.add_parser("import", help="import recipe(s) from JSON file(s)")
+    im.add_argument("files", nargs="+")
     im.set_defaults(func=_import)
 
     a = sub.add_parser("ask", help="ask the local Ollama cooking assistant")

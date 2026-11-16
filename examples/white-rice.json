@@ -1,0 +1,21 @@
+{
+  "id": "white-rice",
+  "name": "Stovetop White Rice",
+  "servings": 4,
+  "yield_unit": "serving",
+  "tags": ["rice", "side", "staple"],
+  "source": "Long-grain stovetop method, ~1:1.6 rice:water by weight",
+  "ingredients": [
+    {"name": "white rice", "amount": 200, "unit": "g"},
+    {"name": "water", "amount": 320, "unit": "g"},
+    {"name": "table salt", "amount": 3, "unit": "g"}
+  ],
+  "steps": [
+    "Rinse the rice under cold water until it runs mostly clear; drain.",
+    "Combine rice, water and salt in a saucepan; bring to a boil.",
+    "Cover, reduce to the lowest heat, and simmer 15 min without lifting the lid.",
+    "Off the heat, keep covered and rest 10 min.",
+    "Fluff with a fork and serve."
+  ],
+  "notes": "~1:1.6 rice:water by weight (200 g rice = about 1 cup). For softer rice go up to 360 g water."
+}

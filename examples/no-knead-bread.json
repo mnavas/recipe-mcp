@@ -1,0 +1,24 @@
+{
+  "id": "no-knead-bread",
+  "name": "No-Knead Bread",
+  "servings": 1,
+  "yield_unit": "loaf",
+  "tags": ["bread", "beginner"],
+  "source": "Adapted from Jim Lahey / NYT 2006 (My Bread)",
+  "ingredients": [
+    {"name": "bread flour", "amount": 400, "unit": "g"},
+    {"name": "water", "amount": 300, "unit": "g"},
+    {"name": "table salt", "amount": 8, "unit": "g"},
+    {"name": "instant yeast", "amount": 1, "unit": "g"}
+  ],
+  "steps": [
+    "Whisk flour, salt and yeast. Add water and stir to a shaggy, sticky dough.",
+    "Cover and rest at room temperature 12-18 h, until dotted with bubbles.",
+    "Scrape onto a floured surface, fold over twice, cover and rest 15 min.",
+    "Shape into a ball and proof seam-down on floured towel ~2 h.",
+    "Heat a covered Dutch oven at 230C/450F for 30 min.",
+    "Drop the dough in, cover, bake 30 min; uncover and bake 15-20 min more.",
+    "Cool completely on a rack before slicing."
+  ],
+  "notes": "75% hydration. Dough should be wet and sticky; weigh for consistency."
+}

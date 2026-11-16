@@ -1,0 +1,23 @@
+{
+  "id": "tomato-sauce",
+  "name": "Basic Tomato Sauce (Marinara)",
+  "servings": 4,
+  "yield_unit": "serving",
+  "tags": ["sauce", "italian", "staple", "vegetarian"],
+  "source": "Simple pantry marinara",
+  "ingredients": [
+    {"name": "canned crushed tomatoes", "amount": 800, "unit": "g"},
+    {"name": "olive oil", "amount": 45, "unit": "g"},
+    {"name": "garlic", "amount": 4, "unit": "clove"},
+    {"name": "table salt", "amount": 5, "unit": "g"},
+    {"name": "fresh basil", "amount": 8, "unit": "leaf"}
+  ],
+  "steps": [
+    "Warm the olive oil over medium heat; add thinly sliced garlic.",
+    "Cook until fragrant and just golden, about 1 min (don't brown).",
+    "Add the tomatoes and salt; bring to a simmer.",
+    "Simmer gently 20-30 min, stirring now and then, until thickened.",
+    "Tear in the basil, taste for salt, and serve over pasta."
+  ],
+  "notes": "Makes enough for ~400 g dry pasta. Add a pinch of sugar if the tomatoes are sharp, or chilli flakes for arrabbiata."
+}

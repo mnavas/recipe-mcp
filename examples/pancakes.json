@@ -1,0 +1,25 @@
+{
+  "id": "pancakes",
+  "name": "Fluffy Pancakes",
+  "servings": 4,
+  "yield_unit": "serving",
+  "tags": ["breakfast", "beginner"],
+  "source": "Standard American buttermilk-style pancakes",
+  "ingredients": [
+    {"name": "all-purpose flour", "amount": 190, "unit": "g"},
+    {"name": "granulated sugar", "amount": 25, "unit": "g"},
+    {"name": "baking powder", "amount": 10, "unit": "g"},
+    {"name": "table salt", "amount": 3, "unit": "g"},
+    {"name": "milk", "amount": 300, "unit": "g"},
+    {"name": "egg", "amount": 1, "unit": "count"},
+    {"name": "butter", "amount": 30, "unit": "g"}
+  ],
+  "steps": [
+    "Whisk flour, sugar, baking powder and salt.",
+    "In another bowl whisk milk, egg and melted butter.",
+    "Fold wet into dry until just combined; leave lumps. Rest 5 min.",
+    "Cook 1/4-cup pools on a medium, lightly greased pan.",
+    "Flip when bubbles form and the edges set; cook until golden."
+  ],
+  "notes": "Makes about 8 pancakes. Don't overmix. For buttermilk, swap the milk and add a pinch of baking soda."
+}

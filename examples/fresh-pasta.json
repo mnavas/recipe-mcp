@@ -1,0 +1,20 @@
+{
+  "id": "fresh-pasta",
+  "name": "Fresh Egg Pasta",
+  "servings": 3,
+  "yield_unit": "serving",
+  "tags": ["pasta", "italian", "staple"],
+  "source": "Classic Italian ratio: 100 g 00 flour per egg",
+  "ingredients": [
+    {"name": "00 flour", "amount": 300, "unit": "g"},
+    {"name": "egg", "amount": 3, "unit": "count"}
+  ],
+  "steps": [
+    "Mound the flour, make a well, and crack in the eggs.",
+    "Beat the eggs with a fork, gradually pulling in flour until a shaggy dough forms.",
+    "Knead 8-10 min until smooth and elastic; wrap and rest 30 min.",
+    "Roll out thinly (pasta machine or rolling pin) and cut to the shape you want.",
+    "Cook in well-salted boiling water 1-3 min, until it floats and is al dente."
+  ],
+  "notes": "1 egg per 100 g flour. Large eggs make a wetter dough; add a little flour if sticky. Use plain all-purpose flour if you have no 00."
+}

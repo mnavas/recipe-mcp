@@ -1,0 +1,23 @@
+{
+  "id": "pizza-dough",
+  "name": "Neapolitan-Style Pizza Dough",
+  "servings": 4,
+  "yield_unit": "pizza",
+  "tags": ["pizza", "bread", "italian"],
+  "source": "Adapted from AVPN-style baker's percentages (62% hydration)",
+  "ingredients": [
+    {"name": "bread flour", "amount": 600, "unit": "g"},
+    {"name": "water", "amount": 372, "unit": "g"},
+    {"name": "table salt", "amount": 18, "unit": "g"},
+    {"name": "instant yeast", "amount": 1.2, "unit": "g"}
+  ],
+  "steps": [
+    "Dissolve salt in the water. Add flour and yeast; mix to a rough dough.",
+    "Knead 10 min until smooth and elastic; rest covered 15 min.",
+    "Bulk ferment 2 h at room temperature (or 24 h in the fridge for more flavour).",
+    "Divide into 4 balls (~248 g each); rest covered 4-6 h until puffy.",
+    "Stretch each by hand to ~30 cm, leaving a thick rim. Top sparingly.",
+    "Bake as hot as your oven allows (250C+/500F+) on a stone or steel, 6-8 min."
+  ],
+  "notes": "62% hydration, ~3% salt. Use 00 flour if you have it. Scale by servings for more/fewer pizzas."
+}

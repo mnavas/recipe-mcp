@@ -141,11 +141,16 @@ An ingredient line used by the scaling/recipe tools is `{"name", "amount", "unit
 Save a recipe once, then scale it or cook from it:
 
 ```bash
-# import the bundled example, then browse it from the terminal
-recipe-mcp-cli import examples/sourdough-loaf.json
+# import the bundled starter recipes, then browse them from the terminal
+recipe-mcp-cli import examples/*.json
 recipe-mcp-cli recipes
-recipe-mcp-cli show sourdough-loaf
+recipe-mcp-cli show pizza-dough
 ```
+
+The `examples/` folder ships ten researched staples: no-knead bread, sourdough,
+pizza dough, white rice, fresh pasta, pancakes, tomato sauce (marinara),
+vinaigrette, béchamel, and chocolate chip cookies — with sourced ratios and
+weights in grams.
 
 Through an MCP client you'd say things like *"save this recipe"*, *"scale the
 sourdough loaf to 1.5 kg of dough"*, *"start cooking it"*, *"what's the next

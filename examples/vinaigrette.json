@@ -1,0 +1,21 @@
+{
+  "id": "vinaigrette",
+  "name": "Classic Vinaigrette",
+  "servings": 4,
+  "yield_unit": "serving",
+  "tags": ["dressing", "sauce", "staple", "vegetarian"],
+  "source": "Classic 3:1 oil-to-vinegar ratio",
+  "ingredients": [
+    {"name": "olive oil", "amount": 45, "unit": "g"},
+    {"name": "red wine vinegar", "amount": 15, "unit": "g"},
+    {"name": "dijon mustard", "amount": 5, "unit": "g"},
+    {"name": "table salt", "amount": 1, "unit": "g"},
+    {"name": "black pepper", "amount": 1, "unit": "pinch"}
+  ],
+  "steps": [
+    "Whisk the mustard, vinegar, salt and pepper together.",
+    "Slowly drizzle in the oil while whisking until emulsified.",
+    "Taste and adjust acidity or salt; dress greens just before serving."
+  ],
+  "notes": "3:1 oil to vinegar. The mustard helps it emulsify. Shake in a jar for an easy version; scale by servings."
+}

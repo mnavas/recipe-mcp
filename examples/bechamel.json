@@ -1,0 +1,23 @@
+{
+  "id": "bechamel",
+  "name": "Bechamel (White Sauce)",
+  "servings": 4,
+  "yield_unit": "serving",
+  "tags": ["sauce", "french", "staple", "vegetarian"],
+  "source": "Classic mother sauce, equal butter and flour by weight",
+  "ingredients": [
+    {"name": "butter", "amount": 50, "unit": "g"},
+    {"name": "all-purpose flour", "amount": 50, "unit": "g"},
+    {"name": "milk", "amount": 500, "unit": "g"},
+    {"name": "table salt", "amount": 3, "unit": "g"},
+    {"name": "nutmeg", "amount": 1, "unit": "pinch"}
+  ],
+  "steps": [
+    "Melt the butter over medium heat; stir in the flour.",
+    "Cook the roux 1-2 min, stirring, without colouring it.",
+    "Gradually whisk in the milk, a little at a time, keeping it smooth.",
+    "Simmer gently, whisking, until it thickens and coats a spoon, 5-8 min.",
+    "Season with salt and a little nutmeg."
+  ],
+  "notes": "Equal butter and flour by weight, ~10x milk. Thin with more milk, or thicken with a longer simmer. Base for lasagne, mac & cheese (add cheese) and gratins."
+}
