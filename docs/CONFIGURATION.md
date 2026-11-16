@@ -11,7 +11,7 @@ They resolve in this order, **first match wins per field**:
 
 | Field | Env var | Default | Meaning |
 |-------|---------|---------|---------|
-| `model` | `RECIPE_MCP_MODEL` | `gemma3n:latest` | Ollama model for the assistant |
+| `model` | `RECIPE_MCP_MODEL` | `llama3.2:latest` | Ollama model for the assistant |
 | `ollama_host` | `RECIPE_MCP_OLLAMA_HOST` | `http://localhost:11434` | Ollama server URL |
 | `temperature` | `RECIPE_MCP_TEMPERATURE` | `0.4` | Sampling temperature |
 | `system_prompt` | `RECIPE_MCP_SYSTEM_PROMPT` | cooking-assistant persona | System message for the assistant |
@@ -48,7 +48,7 @@ cp config.example.json config.json
 ```json
 {
   "ollama_host": "http://localhost:11434",
-  "model": "gemma3n:latest",
+  "model": "llama3.2:latest",
   "temperature": 0.4,
   "system_prompt": "You are a concise, practical home-cooking and baking assistant...",
   "densities_override": ""

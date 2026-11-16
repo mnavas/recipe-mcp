@@ -35,7 +35,7 @@ def default_data_dir() -> str:
 @dataclass
 class Config:
     ollama_host: str = "http://localhost:11434"
-    model: str = "gemma3n:latest"
+    model: str = "llama3.2:latest"
     temperature: float = 0.4
     system_prompt: str = DEFAULT_SYSTEM_PROMPT
     densities_override: str = ""  # optional path to a user densities JSON

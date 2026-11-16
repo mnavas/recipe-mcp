@@ -186,8 +186,8 @@ solve_ratio({"flour": 3, "water": 2}, known_name="flour", known_amount=450)
 ```python
 assistant_health()
 # → {"reachable": true, "host": "http://localhost:11434",
-#    "model": "gemma3n:latest", "model_available": true,
-#    "installed_models": ["gemma3n:latest"]}
+#    "model": "llama3.2:latest", "model_available": true,
+#    "installed_models": ["llama3.2:latest"]}
 ```
 
 ### `assistant_models()`
@@ -196,7 +196,7 @@ Lists the models installed in your local Ollama instance.
 ### `cooking_assistant(question, context?, model?, temperature?)`
 ```python
 cooking_assistant("Why weigh flour instead of using cups?")
-# → {"model": "gemma3n:latest", "answer": "Cup measures vary with how the
+# → {"model": "llama3.2:latest", "answer": "Cup measures vary with how the
 #    flour is packed; weighing in grams gives consistent results."}
 ```
 Pass `context` to give the model recipe text to reason over, or override

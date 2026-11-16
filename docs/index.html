@@ -166,7 +166,7 @@ python3 -m venv .venv &amp;&amp; <span class="k">source</span> .venv/bin/activat
 pip install -e .
 
 <span class="c"># a model for the assistant</span>
-ollama pull gemma3n
+ollama pull llama3.2
 
 <span class="c"># start the server — it waits silently</span>
 <span class="c"># for an MCP client to connect (see below)</span>
@@ -180,7 +180,7 @@ python -m recipe_mcp</pre>
       <span class="k">"command"</span>: ".venv/bin/python",
       <span class="k">"args"</span>: [<span class="k">"-m"</span>, <span class="k">"recipe_mcp"</span>],
       <span class="k">"env"</span>: {
-        <span class="k">"RECIPE_MCP_MODEL"</span>: <span class="k">"gemma3n:latest"</span>
+        <span class="k">"RECIPE_MCP_MODEL"</span>: <span class="k">"llama3.2:latest"</span>
       }
     }
   }

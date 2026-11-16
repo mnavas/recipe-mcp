@@ -11,7 +11,7 @@ any MCP client (Claude Desktop, Claude Code, etc.) tools to:
 - **Percentages & ratios** — ingredient-as-%-of-total, **baker's percentages** (flour = 100%), and solving ratios like 3:2:1.
 - **Store & retrieve recipes** — save recipes, search them, adjust servings/target weight, and even change an ingredient's stored unit.
 - **Cook along** — start a cooking session from a recipe, scaled to your batch; the assistant tracks what's done and what's next, step by step.
-- **Ask a local cooking assistant** — backed by [Ollama](https://ollama.com) running on your machine (default model `gemma3n:latest`).
+- **Ask a local cooking assistant** — backed by [Ollama](https://ollama.com) running on your machine (default model `llama3.2:latest`).
 
 Everything runs locally. The assistant never leaves your computer.
 
@@ -27,7 +27,7 @@ Make sure Ollama is running and has a model:
 
 ```bash
 ollama serve &            # usually already running as a service
-ollama pull gemma3n       # or any model you like
+ollama pull llama3.2       # or any model you like
 ```
 
 ## How to use it
@@ -82,7 +82,7 @@ and add the server. Use the **absolute path** to the venv's Python:
     "recipe": {
       "command": "/ABSOLUTE/PATH/recipe-mcp/.venv/bin/python",
       "args": ["-m", "recipe_mcp"],
-      "env": { "RECIPE_MCP_MODEL": "gemma3n:latest" }
+      "env": { "RECIPE_MCP_MODEL": "llama3.2:latest" }
     }
   }
 }
@@ -175,16 +175,18 @@ restarts.
 deterministic tools (conversions, densities, piece weights, recipe lookups) and
 *calls them*, so answers are grounded in real numbers rather than guessed.
 
-This needs a model that supports tool-calling. **`gemma3n` does not** — with it,
-`ask` prints a note and falls back to a plain chat answer (don't trust its
-numbers; use `wtov`/`convert`/`oven` or the math tools). Models like
-`llama3.1` or `qwen2.5` tool-call well:
+This needs a model that supports tool-calling. The default, **`llama3.2`**, does
+(as do `llama3.1`, `qwen2.5`, `mistral`):
 
 ```bash
-ollama pull qwen2.5
-RECIPE_MCP_MODEL=qwen2.5 recipe-mcp-cli ask "how many ml is 1 g of table salt?"
+ollama pull llama3.2
+recipe-mcp-cli ask "how many ml is 1 g of table salt?"
 # → calls ingredient_volume_to_weight and answers 0.82 ml
 ```
+
+Some models **don't** support tools — notably **`gemma3n`**. With one of those,
+`ask` prints a note and falls back to a plain chat answer (don't trust its
+numbers; use `wtov`/`convert`/`oven` or the math tools).
 
 Use `ask --plain` to force a plain chat with no tools. (Inside a real MCP client
 like Claude Desktop, the client's own model drives all 41 tools — this agentic
@@ -197,7 +199,7 @@ Copy `config.example.json` to `config.json` to persist, or use env vars:
 
 | Field | Env var | Default |
 |-------|---------|---------|
-| `model` | `RECIPE_MCP_MODEL` | `gemma3n:latest` |
+| `model` | `RECIPE_MCP_MODEL` | `llama3.2:latest` |
 | `ollama_host` | `RECIPE_MCP_OLLAMA_HOST` | `http://localhost:11434` |
 | `temperature` | `RECIPE_MCP_TEMPERATURE` | `0.4` |
 | `system_prompt` | `RECIPE_MCP_SYSTEM_PROMPT` | cooking-assistant persona |
