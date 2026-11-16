@@ -55,6 +55,53 @@ def _ingredients(_args) -> int:
     return 0
 
 
+def _store():
+    from . import config, storage
+    return storage.RecipeStore(config.load_config().resolved_data_dir())
+
+
+def _recipes(_args) -> int:
+    rows = _store().list()
+    if not rows:
+        print("No recipes stored yet. Import one with `import <file.json>` "
+              "or save via an MCP client.")
+        return 0
+    for r in rows:
+        print(f"{r['id']:<28} {r['name']:<28} "
+              f"{r['servings']:g} {r['yield_unit']}  "
+              f"· {r['n_ingredients']} ingredients, {r['n_steps']} steps")
+    return 0
+
+
+def _show(args) -> int:
+    r = _store().get(args.recipe_id)
+    print(f"# {r['name']}  ({r['servings']:g} {r['yield_unit']})")
+    if r.get("tags"):
+        print("tags:", ", ".join(r["tags"]))
+    print("\nIngredients:")
+    for i in r["ingredients"]:
+        print(f"  - {i['amount']:g} {i['unit']} {i['name']}")
+    if r.get("steps"):
+        print("\nSteps:")
+        for n, s in enumerate(r["steps"], 1):
+            print(f"  {n}. {s}")
+    if r.get("notes"):
+        print("\nNotes:", r["notes"])
+    return 0
+
+
+def _import(args) -> int:
+    import json
+    data = json.loads(open(args.file, encoding="utf-8").read())
+    r = _store().save(
+        data["name"], data["ingredients"], steps=data.get("steps"),
+        servings=data.get("servings", 1), yield_unit=data.get("yield_unit", "serving"),
+        notes=data.get("notes", ""), tags=data.get("tags"), source=data.get("source", ""),
+        recipe_id=data.get("id"))
+    print(f"saved recipe '{r['id']}'")
+    return 0
+
+
 def _ask(args) -> int:
     from . import assistant, config
     try:
@@ -90,6 +137,16 @@ def build_parser() -> argparse.ArgumentParser:
     w.set_defaults(func=_wtov)
 
     sub.add_parser("ingredients", help="list known ingredients and densities").set_defaults(func=_ingredients)
+
+    sub.add_parser("recipes", help="list stored recipes").set_defaults(func=_recipes)
+
+    sh = sub.add_parser("show", help="show a stored recipe")
+    sh.add_argument("recipe_id")
+    sh.set_defaults(func=_show)
+
+    im = sub.add_parser("import", help="import a recipe from a JSON file")
+    im.add_argument("file")
+    im.set_defaults(func=_import)
 
     a = sub.add_parser("ask", help="ask the local Ollama cooking assistant")
     a.add_argument("question", nargs="+")

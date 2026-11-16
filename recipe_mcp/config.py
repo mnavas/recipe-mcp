@@ -21,6 +21,13 @@ DEFAULT_SYSTEM_PROMPT = (
 )
 
 
+def default_data_dir() -> str:
+    """Where recipes and cooking sessions are stored (XDG data dir)."""
+    base = os.environ.get("XDG_DATA_HOME") or os.path.join(
+        os.path.expanduser("~"), ".local", "share")
+    return os.path.join(base, "recipe-mcp")
+
+
 @dataclass
 class Config:
     ollama_host: str = "http://localhost:11434"
@@ -28,6 +35,10 @@ class Config:
     temperature: float = 0.4
     system_prompt: str = DEFAULT_SYSTEM_PROMPT
     densities_override: str = ""  # optional path to a user densities JSON
+    data_dir: str = ""            # recipes + sessions; blank => default_data_dir()
+
+    def resolved_data_dir(self) -> str:
+        return self.data_dir or default_data_dir()
 
 
 def _config_path() -> Path:
@@ -60,6 +71,8 @@ def load_config() -> Config:
         cfg.system_prompt = env["RECIPE_MCP_SYSTEM_PROMPT"]
     if "RECIPE_MCP_DENSITIES" in env:
         cfg.densities_override = env["RECIPE_MCP_DENSITIES"]
+    if "RECIPE_MCP_DATA_DIR" in env:
+        cfg.data_dir = env["RECIPE_MCP_DATA_DIR"]
     return cfg
 
 

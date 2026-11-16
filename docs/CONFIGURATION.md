@@ -16,6 +16,22 @@ They resolve in this order, **first match wins per field**:
 | `temperature` | `RECIPE_MCP_TEMPERATURE` | `0.4` | Sampling temperature |
 | `system_prompt` | `RECIPE_MCP_SYSTEM_PROMPT` | cooking-assistant persona | System message for the assistant |
 | `densities_override` | `RECIPE_MCP_DENSITIES` | *(none)* | Path to a custom densities JSON |
+| `data_dir` | `RECIPE_MCP_DATA_DIR` | `~/.local/share/recipe-mcp` | Where recipes & cooking sessions are stored |
+
+## Data directory
+
+Stored recipes and in-progress cooking sessions are plain JSON files:
+
+```
+<data_dir>/
+  recipes/<recipe-id>.json     # one file per saved recipe
+  sessions/<session-id>.json   # one file per cooking session
+```
+
+The default is `$XDG_DATA_HOME/recipe-mcp` (i.e. `~/.local/share/recipe-mcp`).
+Point `data_dir` / `RECIPE_MCP_DATA_DIR` elsewhere to keep recipes in, say, a
+synced folder. Because they're per-file JSON, they're easy to back up, diff, or
+edit by hand.
 
 ## Config file
 

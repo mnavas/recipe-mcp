@@ -23,6 +23,11 @@ def _to_grams(line: dict) -> float:
     raise ValueError(f"Unknown unit {unit!r} for ingredient {line.get('name')!r}")
 
 
+def total_grams(ingredient_lines: list[dict]) -> float:
+    """Total weight of an ingredient list in grams (volumes via density)."""
+    return sum(_to_grams(l) for l in ingredient_lines)
+
+
 def scale_recipe(ingredient_lines: list[dict], *, factor: float | None = None,
                  from_yield: float | None = None,
                  to_yield: float | None = None) -> dict:

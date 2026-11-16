@@ -7,6 +7,8 @@ any MCP client (Claude Desktop, Claude Code, etc.) tools to:
 - **Convert weight ↔ volume per ingredient** — using a bulk-density table, so "how many grams is 1 tbsp of table salt?" or "how much volume is 1 g of salt?" are answerable when your scale isn't precise to the gram.
 - **Scale recipes** — by a factor or by changing the yield (e.g. 8 → 12 servings).
 - **Percentages & ratios** — ingredient-as-%-of-total, **baker's percentages** (flour = 100%), and solving ratios like 3:2:1.
+- **Store & retrieve recipes** — save recipes, search them, adjust servings/target weight, and even change an ingredient's stored unit.
+- **Cook along** — start a cooking session from a recipe, scaled to your batch; the assistant tracks what's done and what's next, step by step.
 - **Ask a local cooking assistant** — backed by [Ollama](https://ollama.com) running on your machine (default model `gemma3n:latest`).
 
 Everything runs locally. The assistant never leaves your computer.
@@ -117,11 +119,40 @@ npx @modelcontextprotocol/inspector .venv/bin/python -m recipe_mcp
 | `bakers_percentages` | Flour = 100%, others relative to flour |
 | `apply_bakers_percentages` | Turn a formula into weights for a flour weight |
 | `solve_ratio` | Scale a ratio (e.g. 3:2:1) to real amounts |
+| `save_recipe` / `get_recipe` | Store / retrieve a recipe |
+| `list_recipes` / `search_recipes` | Browse / find stored recipes |
+| `update_recipe` / `delete_recipe` | Edit / remove a recipe |
+| `set_recipe_ingredient_unit` | Change an ingredient's stored unit (converts the amount) |
+| `scale_stored_recipe` | Scale a stored recipe by servings/weight/factor (optionally save) |
+| `start_cooking` | Begin a cook-along, scaled to your batch |
+| `cooking_status` | Scaled ingredients, steps done, and what's next |
+| `complete_step` / `uncomplete_step` | Advance / re-open step progress |
+| `rescale_cooking` | Re-scale an in-progress cook, keeping progress |
+| `log_cooking` | Add a timestamped note to a cook |
+| `finish_cooking` / `list_cooking_sessions` | End / list sessions |
 | `cooking_assistant` | Ask the local Ollama assistant |
 | `assistant_models` / `assistant_health` | List models / check Ollama |
 | `get_config` / `set_config` | View or change model, host, temperature, prompt |
 
-An ingredient line used by the scaling tools is `{"name", "amount", "unit"}`.
+An ingredient line used by the scaling/recipe tools is `{"name", "amount", "unit"}`.
+
+### Recipes & cook-along
+
+Save a recipe once, then scale it or cook from it:
+
+```bash
+# import the bundled example, then browse it from the terminal
+recipe-mcp-cli import examples/sourdough-loaf.json
+recipe-mcp-cli recipes
+recipe-mcp-cli show sourdough-loaf
+```
+
+Through an MCP client you'd say things like *"save this recipe"*, *"scale the
+sourdough loaf to 1.5 kg of dough"*, *"start cooking it"*, *"what's the next
+step?"*, *"mark that done"*, or *"store the flour in grams instead of cups"* —
+each maps to one of the tools above. Recipes and in-progress cooks are stored as
+JSON under the [data directory](docs/CONFIGURATION.md) so they persist across
+restarts.
 
 ## Configuration
 
@@ -135,8 +166,10 @@ Copy `config.example.json` to `config.json` to persist, or use env vars:
 | `temperature` | `RECIPE_MCP_TEMPERATURE` | `0.4` |
 | `system_prompt` | `RECIPE_MCP_SYSTEM_PROMPT` | cooking-assistant persona |
 | `densities_override` | `RECIPE_MCP_DENSITIES` | *(none)* |
+| `data_dir` | `RECIPE_MCP_DATA_DIR` | `~/.local/share/recipe-mcp` |
 
-`set_config(..., persist=True)` writes `config.json` for you.
+`set_config(..., persist=True)` writes `config.json` for you. Recipes live in
+`<data_dir>/recipes/` and cooking sessions in `<data_dir>/sessions/`.
 
 ## Ingredient densities
 
@@ -168,8 +201,12 @@ recipe_mcp/
   ingredients.py  density table + weight/volume conversion
   scaling.py      scaling, percentages, baker's %, ratios
   assistant.py    Ollama cooking assistant
+  storage.py      recipe store (save/get/search/edit/convert units)
+  cooking.py      cook-along sessions (scale + step tracking)
   config.py       settings (env / config.json / defaults)
+  cli.py          terminal commands
 data/densities.json
+examples/         a sample recipe to import
 docs/             landing page + EXAMPLES.md + CONFIGURATION.md
 tests/
 ```

@@ -155,3 +155,71 @@ set_config(model="llama3.1", temperature=0.3, persist=True)
 ```
 
 See [CONFIGURATION.md](CONFIGURATION.md) for all settings.
+
+---
+
+## Recipe storage
+
+Recipes are stored as JSON under the [data directory](CONFIGURATION.md#data-directory).
+
+### `save_recipe(name, ingredients_list, steps?, servings?, ...)`
+```python
+save_recipe(
+    "Sourdough Loaf",
+    [{"name": "bread flour", "amount": 500, "unit": "g"},
+     {"name": "water",       "amount": 350, "unit": "g"},
+     {"name": "salt",        "amount": 10,  "unit": "g"}],
+    steps=["Autolyse", "Mix", "Bulk ferment", "Shape", "Bake"],
+    servings=1, yield_unit="loaf", tags=["bread"])
+# → stored recipe incl. "id": "sourdough-loaf"
+```
+
+### `list_recipes()` / `search_recipes(query)` / `get_recipe(id)`
+```python
+search_recipes("bread")        # by name, tag, ingredient, note or source
+get_recipe("sourdough-loaf")   # full recipe
+```
+
+### `set_recipe_ingredient_unit(recipe_id, ingredient, new_unit)`
+Change how an ingredient is stored, converting the amount (incl. weight↔volume):
+```python
+set_recipe_ingredient_unit("pancakes", "all-purpose flour", "g")
+# 1 cup flour  ->  ~125 g, saved back to the recipe
+```
+
+### `scale_stored_recipe(recipe_id, servings? | target_weight_g? | factor?, save_as?)`
+```python
+scale_stored_recipe("sourdough-loaf", target_weight_g=1720)   # ~2x a 860 g dough
+scale_stored_recipe("pancakes", servings=12, save_as="Pancakes (party)")
+```
+
+---
+
+## Cooking sessions (cook-along)
+
+A live, scaled walk-through of a recipe with step tracking.
+
+### `start_cooking(recipe_id, servings? | target_weight_g? | factor?)`
+```python
+start_cooking("sourdough-loaf", target_weight_g=1720)
+# → session_id, scaled ingredients, "current_step", "next_steps", progress "0/7"
+```
+
+### `cooking_status(session_id)` / `complete_step(session_id, step_index?)`
+```python
+complete_step(sid)            # marks the current step done, returns the next one
+complete_step(sid, 3)         # mark a specific step (0-based) done
+uncomplete_step(sid, 3)       # re-open it
+```
+
+### `rescale_cooking(session_id, ...)` / `log_cooking(session_id, note)`
+```python
+rescale_cooking(sid, factor=2)                 # decided to make a double batch
+log_cooking(sid, "dough slack — added 15 g flour")
+```
+
+### `finish_cooking(session_id)` / `list_cooking_sessions(include_finished?)`
+```python
+list_cooking_sessions()       # active cooks and their progress
+finish_cooking(sid)
+```

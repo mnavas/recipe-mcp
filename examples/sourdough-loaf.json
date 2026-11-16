@@ -1,0 +1,24 @@
+{
+  "id": "sourdough-loaf",
+  "name": "Sourdough Loaf",
+  "servings": 1,
+  "yield_unit": "loaf",
+  "tags": ["bread", "sourdough"],
+  "source": "example recipe shipped with recipe-mcp",
+  "ingredients": [
+    {"name": "bread flour", "amount": 500, "unit": "g"},
+    {"name": "water", "amount": 350, "unit": "g"},
+    {"name": "sourdough starter", "amount": 100, "unit": "g"},
+    {"name": "salt", "amount": 10, "unit": "g"}
+  ],
+  "steps": [
+    "Mix flour and water, rest 30 min (autolyse).",
+    "Add starter and salt; mix until combined.",
+    "Stretch and fold every 30 min, 4 times.",
+    "Bulk ferment until ~50% larger (4-6 h).",
+    "Shape into a boule and proof (2 h, or overnight in the fridge).",
+    "Bake 20 min covered at 245C, then 20 min uncovered at 230C.",
+    "Cool completely before slicing."
+  ],
+  "notes": "70% hydration. Scale by target_weight_g for a bigger or smaller loaf."
+}

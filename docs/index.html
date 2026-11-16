@@ -131,7 +131,7 @@
       <a class="btn primary" href="#install">Get started →</a>
       <a class="btn ghost" href="https://github.com/mnavas/recipe-mcp">View on GitHub</a>
     </div>
-    <p class="note">Python · <b>17 tools</b> · no API keys · no data leaves your computer</p>
+    <p class="note">Python · <b>33 tools</b> · no API keys · no data leaves your computer</p>
   </div>
 
   <section id="features">
@@ -144,6 +144,8 @@
         <div class="card"><div class="ic">📐</div><h3>Scaling</h3><p>Rescale a whole recipe by a factor or by changing the yield — 8 servings to 12 — keeping every amount in proportion.</p></div>
         <div class="card"><div class="ic">🥖</div><h3>Baker's percentages</h3><p>Flour = 100%, everything relative to flour. Read a formula from a recipe, or turn a formula into weights for any batch size.</p></div>
         <div class="card"><div class="ic">🧮</div><h3>Ratios &amp; percentages</h3><p>Solve ratios like 3:2:1 from a total or one known amount, and express any ingredient list as a share of total weight.</p></div>
+        <div class="card"><div class="ic">📒</div><h3>Recipe store</h3><p>Save, search and edit your recipes. Adjust servings or target weight, or change an ingredient's stored unit — cups to grams and back.</p></div>
+        <div class="card"><div class="ic">👩‍🍳</div><h3>Cook along</h3><p>Start a cooking session scaled to your batch; the assistant tracks what's done and what's next, and logs changes as you go.</p></div>
         <div class="card"><div class="ic">🤖</div><h3>Local assistant</h3><p>Ask cooking questions answered by an Ollama model running on your machine. Configurable model, host and temperature.</p></div>
       </div>
     </div>
@@ -235,7 +237,10 @@ npx @modelcontextprotocol/inspector \
         <div class="tool"><span>“Turn this into baker's percentages.”</span></div>
         <div class="tool"><span>“Apply these percentages to 500 g flour.”</span></div>
         <div class="tool"><span>“Give me a 3:2:1 shortbread for 600 g.”</span></div>
-        <div class="tool"><span>“How much does 1 cup of butter weigh?”</span></div>
+        <div class="tool"><span>“Save this recipe as ‘weeknight pasta’.”</span></div>
+        <div class="tool"><span>“Start cooking the sourdough for 1.5 kg of dough.”</span></div>
+        <div class="tool"><span>“What's the next step? Mark that one done.”</span></div>
+        <div class="tool"><span>“Store the flour in grams instead of cups.”</span></div>
       </div>
       <p class="note" style="margin-top:16px">Note: the bundled <code style="font-family:ui-monospace,monospace">mcp install</code> / <code style="font-family:ui-monospace,monospace">mcp dev</code> helpers need <code style="font-family:ui-monospace,monospace">uv</code>; the commands above work with a plain venv.</p>
     </div>
@@ -243,7 +248,7 @@ npx @modelcontextprotocol/inspector \
 
   <section id="tools">
     <div class="wrap">
-      <h2>The 17 tools</h2>
+      <h2>The 33 tools</h2>
       <p class="sub">Each is a typed MCP tool your client can call directly.</p>
       <div class="tools">
         <div class="tool"><code>convert_weight</code><span>mg·g·kg·oz·lb·stone</span></div>
@@ -258,6 +263,22 @@ npx @modelcontextprotocol/inspector \
         <div class="tool"><code>bakers_percentages</code><span>flour = 100%</span></div>
         <div class="tool"><code>apply_bakers_percentages</code><span>formula → weights</span></div>
         <div class="tool"><code>solve_ratio</code><span>e.g. 3:2:1</span></div>
+        <div class="tool"><code>save_recipe</code><span>store a recipe</span></div>
+        <div class="tool"><code>get_recipe</code><span>retrieve by id</span></div>
+        <div class="tool"><code>list_recipes</code><span>browse stored</span></div>
+        <div class="tool"><code>search_recipes</code><span>by name/ingredient/tag</span></div>
+        <div class="tool"><code>update_recipe</code><span>edit fields</span></div>
+        <div class="tool"><code>delete_recipe</code><span>remove one</span></div>
+        <div class="tool"><code>set_recipe_ingredient_unit</code><span>cups → grams, saved</span></div>
+        <div class="tool"><code>scale_stored_recipe</code><span>servings/weight/factor</span></div>
+        <div class="tool"><code>start_cooking</code><span>begin a cook-along</span></div>
+        <div class="tool"><code>cooking_status</code><span>done &amp; what's next</span></div>
+        <div class="tool"><code>complete_step</code><span>advance progress</span></div>
+        <div class="tool"><code>uncomplete_step</code><span>re-open a step</span></div>
+        <div class="tool"><code>rescale_cooking</code><span>resize mid-cook</span></div>
+        <div class="tool"><code>log_cooking</code><span>timestamped notes</span></div>
+        <div class="tool"><code>finish_cooking</code><span>end a session</span></div>
+        <div class="tool"><code>list_cooking_sessions</code><span>active cooks</span></div>
         <div class="tool"><code>cooking_assistant</code><span>ask the local model</span></div>
         <div class="tool"><code>assistant_models</code><span>installed Ollama models</span></div>
         <div class="tool"><code>assistant_health</code><span>is Ollama reachable?</span></div>

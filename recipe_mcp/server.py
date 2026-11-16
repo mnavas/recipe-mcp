@@ -9,7 +9,7 @@ from typing import Any
 
 from mcp.server.mcpserver import MCPServer
 
-from . import assistant, config, ingredients, scaling, units
+from . import assistant, config, cooking, ingredients, scaling, storage, units
 
 mcp = MCPServer("recipe-mcp")
 
@@ -20,6 +20,10 @@ if _CFG.densities_override:
         ingredients.load_overrides(_CFG.densities_override)
     except OSError:
         pass
+
+# Recipe store + cooking sessions, persisted under the data dir.
+_RECIPES = storage.RecipeStore(_CFG.resolved_data_dir())
+_COOKING = cooking.CookingStore(_CFG.resolved_data_dir(), _RECIPES)
 
 
 # --------------------------------------------------------------------------- #
@@ -131,6 +135,150 @@ def solve_ratio(parts: dict[str, float], total: float | None = None,
     """
     return scaling.solve_ratio(parts, total=total, known_name=known_name,
                                known_amount=known_amount, unit=unit)
+
+
+# --------------------------------------------------------------------------- #
+# Recipe storage
+# --------------------------------------------------------------------------- #
+@mcp.tool()
+def save_recipe(name: str, ingredients_list: list[dict[str, Any]],
+                steps: list[str] | None = None, servings: float = 1,
+                yield_unit: str = "serving", notes: str = "",
+                tags: list[str] | None = None, source: str = "",
+                recipe_id: str | None = None) -> dict:
+    """Save a recipe (or overwrite one with the same id).
+
+    Each ingredient: {name, amount, unit}. `servings` is the base yield used
+    later for scaling. Returns the stored recipe including its `id`.
+    """
+    return _RECIPES.save(name, ingredients_list, steps=steps, servings=servings,
+                         yield_unit=yield_unit, notes=notes, tags=tags,
+                         source=source, recipe_id=recipe_id)
+
+
+@mcp.tool()
+def get_recipe(recipe_id: str) -> dict:
+    """Retrieve a stored recipe by id (ingredients, steps, notes)."""
+    return _RECIPES.get(recipe_id)
+
+
+@mcp.tool()
+def list_recipes() -> list[dict]:
+    """List stored recipes (id, name, servings, tags, counts)."""
+    return _RECIPES.list()
+
+
+@mcp.tool()
+def search_recipes(query: str) -> list[dict]:
+    """Find stored recipes by name, tag, ingredient, note or source."""
+    return _RECIPES.search(query)
+
+
+@mcp.tool()
+def delete_recipe(recipe_id: str) -> dict:
+    """Delete a stored recipe."""
+    return {"deleted": _RECIPES.delete(recipe_id), "recipe_id": recipe_id}
+
+
+@mcp.tool()
+def update_recipe(recipe_id: str, patch: dict[str, Any]) -> dict:
+    """Patch fields of a stored recipe (name, ingredients, steps, notes, tags...)."""
+    return _RECIPES.update(recipe_id, patch)
+
+
+@mcp.tool()
+def set_recipe_ingredient_unit(recipe_id: str, ingredient: str, new_unit: str) -> dict:
+    """Change the stored unit of one ingredient, converting its amount.
+
+    Handles weight↔weight, volume↔volume, and weight↔volume (via density).
+    """
+    return _RECIPES.set_ingredient_unit(recipe_id, ingredient, new_unit)
+
+
+@mcp.tool()
+def scale_stored_recipe(recipe_id: str, servings: float | None = None,
+                        target_weight_g: float | None = None,
+                        factor: float | None = None,
+                        save_as: str | None = None) -> dict:
+    """Scale a stored recipe to a target servings, total weight, or factor.
+
+    Returns the scaled ingredients. If `save_as` is given, stores the result as
+    a new recipe with that name.
+    """
+    recipe = _RECIPES.get(recipe_id)
+    f, target = cooking._resolve_factor(recipe, servings, target_weight_g, factor)
+    scaled = scaling.scale_recipe(recipe["ingredients"], factor=f)
+    result = {"recipe_id": recipe_id, "name": recipe["name"], "scale": {"factor": round(f, 6), **target},
+              "ingredients": scaled["ingredients"], "steps": recipe.get("steps", [])}
+    if save_as:
+        saved = _RECIPES.save(save_as, scaled["ingredients"], steps=recipe.get("steps"),
+                              servings=target.get("servings", recipe.get("servings", 1)),
+                              yield_unit=recipe.get("yield_unit", "serving"),
+                              notes=f"Scaled from {recipe['name']} (×{round(f, 3)})",
+                              tags=recipe.get("tags"), source=recipe.get("source", ""))
+        result["saved_recipe_id"] = saved["id"]
+    return result
+
+
+# --------------------------------------------------------------------------- #
+# Cooking sessions (cook-along)
+# --------------------------------------------------------------------------- #
+@mcp.tool()
+def start_cooking(recipe_id: str, servings: float | None = None,
+                  target_weight_g: float | None = None,
+                  factor: float | None = None) -> dict:
+    """Begin cooking a stored recipe, scaled to your batch.
+
+    Scales ingredients to `servings`, `target_weight_g`, or `factor` (default 1×),
+    initialises step tracking, and returns the first step plus scaled ingredients.
+    """
+    return _COOKING.start(recipe_id, servings=servings,
+                          target_weight_g=target_weight_g, factor=factor)
+
+
+@mcp.tool()
+def cooking_status(session_id: str) -> dict:
+    """Current state of a cook: scaled ingredients, what's done, and what's next."""
+    return _COOKING.status(session_id)
+
+
+@mcp.tool()
+def complete_step(session_id: str, step_index: int | None = None) -> dict:
+    """Mark a step done (defaults to the current step) and return what's next."""
+    return _COOKING.complete_step(session_id, step_index)
+
+
+@mcp.tool()
+def uncomplete_step(session_id: str, step_index: int) -> dict:
+    """Re-open a previously completed step (0-based index)."""
+    return _COOKING.uncomplete_step(session_id, step_index)
+
+
+@mcp.tool()
+def rescale_cooking(session_id: str, servings: float | None = None,
+                    target_weight_g: float | None = None,
+                    factor: float | None = None) -> dict:
+    """Re-scale an in-progress cook (e.g. decide to make more) keeping step progress."""
+    return _COOKING.rescale(session_id, servings=servings,
+                            target_weight_g=target_weight_g, factor=factor)
+
+
+@mcp.tool()
+def log_cooking(session_id: str, note: str) -> dict:
+    """Add a timestamped note to a cook (e.g. 'dough felt dry, added 10 g water')."""
+    return _COOKING.log(session_id, note)
+
+
+@mcp.tool()
+def finish_cooking(session_id: str) -> dict:
+    """Mark a cooking session finished."""
+    return _COOKING.finish(session_id)
+
+
+@mcp.tool()
+def list_cooking_sessions(include_finished: bool = False) -> list[dict]:
+    """List cooking sessions and their progress."""
+    return _COOKING.list(include_finished)
 
 
 # --------------------------------------------------------------------------- #
