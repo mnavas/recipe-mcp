@@ -45,6 +45,10 @@
     "sesame oil":            {"density": 0.92},
     "dijon mustard":         {"density": 1.10},
     "mayonnaise":            {"density": 0.91},
-    "sour cream":            {"density": 0.96}
+    "sour cream":            {"density": 0.96},
+    "lard":                  {"density": 0.92, "note": "rendered pork fat, solid"},
+    "vegetable shortening":  {"density": 0.87, "note": "solid (e.g. Crisco); 1 cup ~ 205 g"},
+    "vegetable lard":        {"density": 0.87, "note": "= vegetable shortening / manteca vegetal"},
+    "coconut oil":           {"density": 0.92}
   }
 }
