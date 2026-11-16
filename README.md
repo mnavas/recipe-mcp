@@ -169,6 +169,27 @@ each maps to one of the tools above. Recipes and in-progress cooks are stored as
 JSON under the [data directory](docs/CONFIGURATION.md) so they persist across
 restarts.
 
+### The local assistant can use the tools
+
+`recipe-mcp-cli ask "..."` runs an **agentic loop**: the local model is given the
+deterministic tools (conversions, densities, piece weights, recipe lookups) and
+*calls them*, so answers are grounded in real numbers rather than guessed.
+
+This needs a model that supports tool-calling. **`gemma3n` does not** — with it,
+`ask` prints a note and falls back to a plain chat answer (don't trust its
+numbers; use `wtov`/`convert`/`oven` or the math tools). Models like
+`llama3.1` or `qwen2.5` tool-call well:
+
+```bash
+ollama pull qwen2.5
+RECIPE_MCP_MODEL=qwen2.5 recipe-mcp-cli ask "how many ml is 1 g of table salt?"
+# → calls ingredient_volume_to_weight and answers 0.82 ml
+```
+
+Use `ask --plain` to force a plain chat with no tools. (Inside a real MCP client
+like Claude Desktop, the client's own model drives all 41 tools — this agentic
+`ask` is the equivalent for the local CLI.)
+
 ## Configuration
 
 Settings resolve in this order (first wins): **env vars → `config.json` → defaults**.

@@ -115,12 +115,31 @@ def _import(args) -> int:
 
 def _ask(args) -> int:
     from . import assistant, config
+    cfg = config.load_config()
+    question = " ".join(args.question)
     try:
-        print(assistant.ask(config.load_config(), " ".join(args.question)))
+        if args.plain:
+            print(assistant.ask(cfg, question))
+            return 0
+        from . import agent
+        out = agent.run(cfg, question)
+        if out.get("tools_supported") is False:
+            print(f"[note] model '{cfg.model}' can't call tools, so this is a plain "
+                  f"chat answer — numbers may be wrong. Use the exact commands "
+                  f"(wtov/convert/oven) for conversions, or a tool-capable model "
+                  f"(e.g. llama3.1, qwen2.5).", file=sys.stderr)
+        print(out["answer"])
+        for c in out["tool_calls"]:
+            res = c["result"].get("result", c["result"]) if isinstance(c["result"], dict) else c["result"]
+            print(f"  · used {c['tool']}({_fmt_args(c['args'])}) -> {res}", file=sys.stderr)
     except Exception as exc:  # noqa: BLE001
         print(f"assistant error: {exc}\n(is Ollama running? `ollama serve`)", file=sys.stderr)
         return 1
     return 0
+
+
+def _fmt_args(args: dict) -> str:
+    return ", ".join(f"{k}={v!r}" for k, v in args.items())
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -164,8 +183,10 @@ def build_parser() -> argparse.ArgumentParser:
     im.add_argument("files", nargs="+")
     im.set_defaults(func=_import)
 
-    a = sub.add_parser("ask", help="ask the local Ollama cooking assistant")
+    a = sub.add_parser("ask", help="ask the local assistant (it can call the tools)")
     a.add_argument("question", nargs="+")
+    a.add_argument("--plain", action="store_true",
+                   help="plain chat, no tool access (old behaviour)")
     a.set_defaults(func=_ask)
     return p
 
