@@ -9,7 +9,8 @@ from typing import Any
 
 from mcp.server.mcpserver import MCPServer
 
-from . import assistant, config, cooking, ingredients, items, scaling, storage, units
+from . import (assistant, config, cooking, ingredients, items, scaling,
+               storage, temperature, units)
 
 mcp = MCPServer("recipe-mcp")
 
@@ -89,6 +90,46 @@ def volume_to_weight(ingredient: str, value: float, volume_unit: str = "ml",
     result = ingredients.volume_to_weight(ingredient, value, volume_unit, weight_unit)
     return {"ingredient": ingredient, "input": f"{value} {volume_unit}",
             "result": result, "unit": weight_unit}
+
+
+# --------------------------------------------------------------------------- #
+# Temperature & oven
+# --------------------------------------------------------------------------- #
+@mcp.tool()
+def convert_temperature(value: float, from_unit: str, to_unit: str) -> dict:
+    """Convert a temperature between C, F and K."""
+    result = temperature.convert_temperature(value, from_unit, to_unit)
+    return {"value": value, "from": from_unit, "to": to_unit, "result": round(result, 2)}
+
+
+@mcp.tool()
+def oven_temperature(value: float, unit: str = "C") -> dict:
+    """Full oven breakdown for a (conventional) temperature.
+
+    Returns Celsius, Fahrenheit, the nearest UK gas mark, the fan-oven
+    equivalent, and a description (moderate, hot, ...).
+    """
+    return temperature.oven(value, unit)
+
+
+@mcp.tool()
+def gas_mark_to_temperature(mark: str, unit: str = "C") -> dict:
+    """Oven temperature for a UK gas mark (accepts 4, '1/4', '1/2')."""
+    c = temperature.gas_mark_to_celsius(mark)
+    return {"gas_mark": mark, "result": round(temperature.from_celsius(c, unit), 1),
+            "unit": unit.upper().lstrip("°")}
+
+
+@mcp.tool()
+def fan_oven(value: float, unit: str = "C", to: str = "fan") -> dict:
+    """Convert between conventional and fan-oven temperatures.
+
+    `to="fan"` lowers by ~20 C (set a fan oven cooler); `to="conventional"`
+    raises by ~20 C.
+    """
+    result = temperature.fan_adjust(value, unit, to)
+    return {"value": value, "unit": unit.upper().lstrip("°"), "to": to,
+            "result": round(result, 1)}
 
 
 # --------------------------------------------------------------------------- #

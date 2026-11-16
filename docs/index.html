@@ -131,7 +131,7 @@
       <a class="btn primary" href="#install">Get started →</a>
       <a class="btn ghost" href="https://github.com/mnavas/recipe-mcp">View on GitHub</a>
     </div>
-    <p class="note">Python · <b>37 tools</b> · no API keys · no data leaves your computer</p>
+    <p class="note">Python · <b>41 tools</b> · no API keys · no data leaves your computer</p>
   </div>
 
   <section id="features">
@@ -142,6 +142,7 @@
         <div class="card"><div class="ic">⚖️</div><h3>Unit conversion</h3><p>Weight (mg · g · kg · oz · lb · stone) and volume (ml · l · cup · tbsp · tsp · fl oz) with US, metric and imperial variants.</p></div>
         <div class="card"><div class="ic">🧂</div><h3>Weight ⇄ volume</h3><p>A bulk-density table for 40+ common ingredients. “How many grams is 1 tbsp of salt?” when your scale isn't precise to the gram.</p></div>
         <div class="card"><div class="ic">🥚</div><h3>Counts ⇄ weight</h3><p>A piece-weight table — 1 egg ≈ 50 g, 1 clove ≈ 5 g — so “2 eggs” has a weight and recipes with whole items can scale by total weight.</p></div>
+        <div class="card"><div class="ic">🌡️</div><h3>Temperature &amp; oven</h3><p>°C/°F/°K, UK gas marks and fan-oven adjustment. One call turns 180 °C into 356 °F, gas 4, fan 160 °C — “moderate”.</p></div>
         <div class="card"><div class="ic">📐</div><h3>Scaling</h3><p>Rescale a whole recipe by a factor or by changing the yield — 8 servings to 12 — keeping every amount in proportion.</p></div>
         <div class="card"><div class="ic">🥖</div><h3>Baker's percentages</h3><p>Flour = 100%, everything relative to flour. Read a formula from a recipe, or turn a formula into weights for any batch size.</p></div>
         <div class="card"><div class="ic">🧮</div><h3>Ratios &amp; percentages</h3><p>Solve ratios like 3:2:1 from a total or one known amount, and express any ingredient list as a share of total weight.</p></div>
@@ -242,6 +243,8 @@ npx @modelcontextprotocol/inspector \
         <div class="tool"><span>“Start cooking the sourdough for 1.5 kg of dough.”</span></div>
         <div class="tool"><span>“What's the next step? Mark that one done.”</span></div>
         <div class="tool"><span>“Store the flour in grams instead of cups.”</span></div>
+        <div class="tool"><span>“What's 425 °F in °C and gas mark?”</span></div>
+        <div class="tool"><span>“Set my fan oven for a 200 °C recipe.”</span></div>
       </div>
       <p class="note" style="margin-top:16px">Note: the bundled <code style="font-family:ui-monospace,monospace">mcp install</code> / <code style="font-family:ui-monospace,monospace">mcp dev</code> helpers need <code style="font-family:ui-monospace,monospace">uv</code>; the commands above work with a plain venv.</p>
     </div>
@@ -249,11 +252,15 @@ npx @modelcontextprotocol/inspector \
 
   <section id="tools">
     <div class="wrap">
-      <h2>The 37 tools</h2>
+      <h2>The 41 tools</h2>
       <p class="sub">Each is a typed MCP tool your client can call directly.</p>
       <div class="tools">
         <div class="tool"><code>convert_weight</code><span>mg·g·kg·oz·lb·stone</span></div>
         <div class="tool"><code>convert_volume</code><span>ml·cup·tbsp·tsp·fl oz</span></div>
+        <div class="tool"><code>convert_temperature</code><span>°C ↔ °F ↔ °K</span></div>
+        <div class="tool"><code>oven_temperature</code><span>C/F/gas/fan breakdown</span></div>
+        <div class="tool"><code>gas_mark_to_temperature</code><span>gas 4 → 180 °C</span></div>
+        <div class="tool"><code>fan_oven</code><span>conventional ↔ fan</span></div>
         <div class="tool"><code>list_units</code><span>every supported unit</span></div>
         <div class="tool"><code>list_ingredients</code><span>browse the density table</span></div>
         <div class="tool"><code>ingredient_density</code><span>g/ml for one ingredient</span></div>

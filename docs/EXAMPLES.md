@@ -64,6 +64,34 @@ Returns every known ingredient with its density and a note (e.g. *"1 cup ~ 125 g
 
 ---
 
+## Temperature & oven
+
+### `convert_temperature(value, from_unit, to_unit)`
+```python
+convert_temperature(180, "C", "F")   # → 356.0
+convert_temperature(350, "F", "C")   # → 176.67
+```
+Units: `C` / `F` / `K` (also `°C`, `celsius`, `fahrenheit`, `kelvin`).
+
+### `oven_temperature(value, unit="C")`
+One call for everything an oven step needs:
+```python
+oven_temperature(200, "C")
+# → {"celsius": 200, "fahrenheit": 392,
+#    "gas_mark": {"gas_mark": "6", "celsius": 200, "fahrenheit": 400},
+#    "fan_celsius": 180, "fan_fahrenheit": 356, "description": "moderately hot"}
+```
+
+### `gas_mark_to_temperature(mark, unit="C")` / `fan_oven(value, unit, to)`
+```python
+gas_mark_to_temperature("1/4")              # → 110 C
+gas_mark_to_temperature(7, "F")             # → 425 F
+fan_oven(180, "C", "fan")                   # → 160 C  (set a fan oven lower)
+fan_oven(160, "C", "conventional")          # → 180 C
+```
+
+---
+
 ## Countable items: count ↔ weight
 
 A separate table gives the weight of **one piece** of countable ingredients, so

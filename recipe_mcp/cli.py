@@ -55,6 +55,15 @@ def _ingredients(_args) -> int:
     return 0
 
 
+def _oven(args) -> int:
+    from . import temperature
+    o = temperature.oven(args.value, args.unit)
+    g = o["gas_mark"]
+    print(f"{o['input']}  =  {o['celsius']}C / {o['fahrenheit']}F  "
+          f"· gas mark {g['gas_mark']}  · fan {o['fan_celsius']}C  ({o['description']})")
+    return 0
+
+
 def _store():
     from . import config, storage
     return storage.RecipeStore(config.load_config().resolved_data_dir())
@@ -139,6 +148,11 @@ def build_parser() -> argparse.ArgumentParser:
     w.set_defaults(func=_wtov)
 
     sub.add_parser("ingredients", help="list known ingredients and densities").set_defaults(func=_ingredients)
+
+    ov = sub.add_parser("oven", help="oven breakdown: C/F/gas mark/fan")
+    ov.add_argument("value", type=float)
+    ov.add_argument("unit", nargs="?", default="C")
+    ov.set_defaults(func=_oven)
 
     sub.add_parser("recipes", help="list stored recipes").set_defaults(func=_recipes)
 

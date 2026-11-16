@@ -6,6 +6,7 @@ any MCP client (Claude Desktop, Claude Code, etc.) tools to:
 - **Convert units** — weight (mg/g/kg/oz/lb/stone) and volume (ml/l/cup/tbsp/tsp/fl oz, US + metric + imperial).
 - **Convert weight ↔ volume per ingredient** — using a bulk-density table, so "how many grams is 1 tbsp of table salt?" or "how much volume is 1 g of salt?" are answerable when your scale isn't precise to the gram.
 - **Convert counts ↔ weight** — a piece-weight table (1 egg ≈ 50 g, 1 garlic clove ≈ 5 g) so "2 eggs" has a weight, and recipes with countable items can still be scaled by total weight.
+- **Temperature & oven** — °C/°F/°K conversion, UK gas marks, fan-oven adjustment, and a one-stop oven breakdown (e.g. 180 °C → 356 °F, gas 4, fan 160 °C, "moderate").
 - **Scale recipes** — by a factor or by changing the yield (e.g. 8 → 12 servings).
 - **Percentages & ratios** — ingredient-as-%-of-total, **baker's percentages** (flour = 100%), and solving ratios like 3:2:1.
 - **Store & retrieve recipes** — save recipes, search them, adjust servings/target weight, and even change an ingredient's stored unit.
@@ -49,6 +50,7 @@ recipe-mcp-cli convert 1 lb g              # 1.0 lb = 453.6 g
 recipe-mcp-cli vtow "table salt" 1 tbsp g  # 1 tbsp salt = 18.04 g
 recipe-mcp-cli wtov "all-purpose flour" 125 g cup
 recipe-mcp-cli ingredients                 # list the density table
+recipe-mcp-cli oven 180 C                  # 180C = 356F · gas 4 · fan 160C
 recipe-mcp-cli ask "why weigh flour instead of cups?"   # needs Ollama
 ```
 
@@ -117,6 +119,10 @@ npx @modelcontextprotocol/inspector .venv/bin/python -m recipe_mcp
 | `weight_to_volume` / `volume_to_weight` | Per-ingredient weight ↔ volume |
 | `list_item_weights` / `item_weight` | Browse / get the weight of one piece (1 egg ≈ 50 g) |
 | `count_to_weight` / `weight_to_count` | Convert counts ↔ grams (2 eggs → 100 g) |
+| `convert_temperature` | °C ↔ °F ↔ °K |
+| `oven_temperature` | Full oven breakdown: C, F, gas mark, fan, description |
+| `gas_mark_to_temperature` | UK gas mark → °C/°F |
+| `fan_oven` | Conventional ↔ fan-oven temperature |
 | `scale_recipe` | Rescale by `factor` or `from_yield`/`to_yield` |
 | `recipe_to_percentages` | Each ingredient as % of total weight |
 | `bakers_percentages` | Flour = 100%, others relative to flour |
@@ -210,6 +216,7 @@ recipe_mcp/
   units.py        weight & volume conversion
   ingredients.py  density table + weight/volume conversion
   items.py        piece-weight table + count/weight conversion
+  temperature.py  C/F/K, gas marks, fan oven, oven breakdown
   scaling.py      scaling, percentages, baker's %, ratios
   assistant.py    Ollama cooking assistant
   storage.py      recipe store (save/get/search/edit/convert units)
