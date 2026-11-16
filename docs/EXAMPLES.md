@@ -234,6 +234,13 @@ search_recipes("bread")        # by name, tag, ingredient, note or source
 get_recipe("sourdough-loaf")   # full recipe
 ```
 
+### `update_recipe(recipe_id, patch)` / `delete_recipe(recipe_id)`
+```python
+update_recipe("pancakes", {"servings": 8, "notes": "doubled batch"})
+update_recipe("pancakes", {"steps": ["Mix dry", "Mix wet", "Combine", "Cook"]})
+delete_recipe("old-recipe")    # → {"deleted": true, "recipe_id": "old-recipe"}
+```
+
 ### `set_recipe_ingredient_unit(recipe_id, ingredient, new_unit)`
 Change how an ingredient is stored, converting the amount (incl. weight↔volume):
 ```python
