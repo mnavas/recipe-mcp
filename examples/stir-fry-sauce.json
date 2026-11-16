@@ -1,0 +1,25 @@
+{
+  "id": "stir-fry-sauce",
+  "name": "All-Purpose Stir-Fry Sauce",
+  "servings": 4,
+  "yield_unit": "serving",
+  "tags": ["sauce", "asian", "staple"],
+  "source": "Basic soy-garlic stir-fry sauce",
+  "ingredients": [
+    {"name": "soy sauce", "amount": 60, "unit": "g"},
+    {"name": "water", "amount": 60, "unit": "g"},
+    {"name": "honey", "amount": 15, "unit": "g"},
+    {"name": "cornstarch", "amount": 8, "unit": "g"},
+    {"name": "sesame oil", "amount": 5, "unit": "g"},
+    {"name": "garlic", "amount": 2, "unit": "clove"},
+    {"name": "ginger", "amount": 10, "unit": "g"}
+  ],
+  "steps": [
+    "Whisk the cornstarch into the water until no lumps remain.",
+    "Add soy sauce, honey, sesame oil, grated garlic and ginger; whisk.",
+    "Stir-fry your protein and vegetables over high heat first.",
+    "Pour in the sauce and toss 1-2 min until it thickens and glosses.",
+    "Serve over rice or noodles."
+  ],
+  "notes": "Enough for ~500 g of stir-fry. The cornstarch is what thickens it — add it to cold liquid first. Add chilli or rice vinegar to taste."
+}

@@ -1,0 +1,24 @@
+{
+  "id": "roast-chicken",
+  "name": "Roast Chicken",
+  "servings": 4,
+  "yield_unit": "serving",
+  "tags": ["main", "chicken", "staple"],
+  "source": "Two-stage roast; adapted from RecipeTin Eats",
+  "ingredients": [
+    {"name": "whole chicken", "amount": 1600, "unit": "g"},
+    {"name": "olive oil", "amount": 30, "unit": "g"},
+    {"name": "table salt", "amount": 12, "unit": "g"},
+    {"name": "garlic", "amount": 4, "unit": "clove"},
+    {"name": "lemon", "amount": 1, "unit": "count"}
+  ],
+  "steps": [
+    "Heat the oven to 220C/430F. Pat the chicken very dry.",
+    "Rub all over with oil and salt; put the halved lemon and garlic in the cavity.",
+    "Roast 10 min at 220C/430F to brown.",
+    "Lower to 180C/350F and roast ~20 min per 500 g (about 1 h 5 min for 1.6 kg).",
+    "Done when the thickest part reads 75C/165F and juices run clear.",
+    "Rest 15 min loosely tented with foil before carving."
+  ],
+  "notes": "Total time scales with weight: 10 min sear + ~20 min per 500 g at 180C. Always check with a thermometer (75C) rather than time alone."
+}

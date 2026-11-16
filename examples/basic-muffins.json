@@ -1,0 +1,26 @@
+{
+  "id": "basic-muffins",
+  "name": "Basic Muffins",
+  "servings": 12,
+  "yield_unit": "muffin",
+  "tags": ["baking", "breakfast", "beginner"],
+  "source": "Standard muffin-method quick bread",
+  "ingredients": [
+    {"name": "all-purpose flour", "amount": 250, "unit": "g"},
+    {"name": "granulated sugar", "amount": 120, "unit": "g"},
+    {"name": "baking powder", "amount": 12, "unit": "g"},
+    {"name": "table salt", "amount": 3, "unit": "g"},
+    {"name": "egg", "amount": 2, "unit": "count"},
+    {"name": "milk", "amount": 240, "unit": "g"},
+    {"name": "vegetable oil", "amount": 80, "unit": "g"}
+  ],
+  "steps": [
+    "Heat the oven to 190C/375F and line a 12-cup muffin tin.",
+    "Whisk flour, sugar, baking powder and salt.",
+    "In another bowl whisk eggs, milk and oil.",
+    "Fold wet into dry until just combined — lumpy is fine; don't overmix.",
+    "Divide between the cups (about 3/4 full).",
+    "Bake 18-22 min until risen and a skewer comes out clean."
+  ],
+  "notes": "A blank-canvas recipe: fold in ~150 g blueberries, chocolate chips, or add lemon zest. Overmixing makes them tough."
+}

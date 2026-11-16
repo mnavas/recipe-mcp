@@ -1,0 +1,20 @@
+{
+  "id": "boiled-eggs",
+  "name": "Boiled Eggs",
+  "servings": 2,
+  "yield_unit": "serving",
+  "tags": ["eggs", "beginner", "staple"],
+  "source": "Timed from boiling water (large eggs)",
+  "ingredients": [
+    {"name": "egg", "amount": 4, "unit": "count"},
+    {"name": "water", "amount": 1000, "unit": "g"}
+  ],
+  "steps": [
+    "Bring a pan of water to a gentle boil.",
+    "Lower in the eggs with a spoon and start the timer.",
+    "Soft (runny yolk): 6-7 min. Medium (jammy): 8-9 min. Hard: 10-12 min.",
+    "Transfer to an ice-water bath for 2 min to stop cooking and ease peeling.",
+    "Peel under running water."
+  ],
+  "notes": "Times are for large eggs from boiling. Medium eggs ~30 s less; extra-large ~1 min more. Starting from boiling (not cold) is more consistent."
+}

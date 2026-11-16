@@ -1,0 +1,22 @@
+{
+  "id": "mashed-potatoes",
+  "name": "Mashed Potatoes",
+  "servings": 4,
+  "yield_unit": "serving",
+  "tags": ["side", "staple", "vegetarian"],
+  "source": "Classic buttery mash",
+  "ingredients": [
+    {"name": "potato", "amount": 1000, "unit": "g"},
+    {"name": "butter", "amount": 80, "unit": "g"},
+    {"name": "milk", "amount": 150, "unit": "g"},
+    {"name": "table salt", "amount": 6, "unit": "g"}
+  ],
+  "steps": [
+    "Peel and cut the potatoes into even chunks.",
+    "Cover with cold salted water, bring to a boil, and simmer 15-20 min until tender.",
+    "Drain well and let them steam-dry for a minute.",
+    "Warm the milk and butter together.",
+    "Mash the potatoes, then beat in the warm milk-butter until smooth. Season."
+  ],
+  "notes": "Starchy potatoes (russet/Maris Piper) make fluffier mash. Don't overwork or it turns gluey. Warm milk keeps the mash hot."
+}

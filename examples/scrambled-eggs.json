@@ -1,0 +1,22 @@
+{
+  "id": "scrambled-eggs",
+  "name": "Soft Scrambled Eggs",
+  "servings": 2,
+  "yield_unit": "serving",
+  "tags": ["breakfast", "eggs", "beginner"],
+  "source": "Classic low-and-slow method",
+  "ingredients": [
+    {"name": "egg", "amount": 4, "unit": "count"},
+    {"name": "butter", "amount": 15, "unit": "g"},
+    {"name": "milk", "amount": 30, "unit": "g"},
+    {"name": "table salt", "amount": 1, "unit": "g"}
+  ],
+  "steps": [
+    "Beat the eggs with the milk and salt until uniform.",
+    "Melt the butter in a nonstick pan over low-medium heat.",
+    "Pour in the eggs; wait a few seconds, then stir slowly with a spatula.",
+    "Keep folding the curds gently; pull off the heat while still slightly wet.",
+    "Residual heat finishes them — serve immediately."
+  ],
+  "notes": "Low heat and constant gentle stirring keep them soft. Season at the end for the fluffiest result."
+}

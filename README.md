@@ -147,10 +147,11 @@ recipe-mcp-cli recipes
 recipe-mcp-cli show pizza-dough
 ```
 
-The `examples/` folder ships ten researched staples: no-knead bread, sourdough,
-pizza dough, white rice, fresh pasta, pancakes, tomato sauce (marinara),
-vinaigrette, béchamel, and chocolate chip cookies — with sourced ratios and
-weights in grams.
+The `examples/` folder ships sixteen researched staples: no-knead bread,
+sourdough, pizza dough, white rice, fresh pasta, pancakes, tomato sauce
+(marinara), vinaigrette, béchamel, chocolate chip cookies, scrambled eggs,
+boiled eggs, mashed potatoes, roast chicken, basic muffins, and an all-purpose
+stir-fry sauce — with sourced ratios and weights in grams.
 
 Through an MCP client you'd say things like *"save this recipe"*, *"scale the
 sourdough loaf to 1.5 kg of dough"*, *"start cooking it"*, *"what's the next

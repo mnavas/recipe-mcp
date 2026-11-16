@@ -79,7 +79,7 @@ different clients can use different models:
 
 ## Custom ingredient densities
 
-The built-in table ([`data/densities.json`](../data/densities.json)) covers ~28
+The built-in table ([`data/densities.json`](../data/densities.json)) covers 40+
 common ingredients. To add or override entries, create your own JSON file and
 point `densities_override` at it. Both shapes are accepted:
 

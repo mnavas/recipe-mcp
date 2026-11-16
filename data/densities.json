@@ -33,6 +33,18 @@
     "rolled oats":           {"density": 0.41, "note": "1 cup ~ 97 g"},
     "white rice":            {"density": 0.85, "note": "uncooked long grain"},
     "ground coffee":         {"density": 0.38},
-    "chopped nuts":          {"density": 0.57}
+    "chopped nuts":          {"density": 0.57},
+    "00 flour":              {"density": 0.56, "note": "fine Italian pizza/pasta flour"},
+    "semolina":              {"density": 0.74},
+    "cornmeal":              {"density": 0.68, "note": "1 cup ~ 160 g"},
+    "chocolate chips":       {"density": 0.72, "note": "1 cup ~ 170 g"},
+    "peanut butter":         {"density": 1.08, "note": "1 cup ~ 256 g"},
+    "vanilla extract":       {"density": 0.88},
+    "vinegar":               {"density": 1.01, "note": "most wine/cider vinegars"},
+    "soy sauce":             {"density": 1.15},
+    "sesame oil":            {"density": 0.92},
+    "dijon mustard":         {"density": 1.10},
+    "mayonnaise":            {"density": 0.91},
+    "sour cream":            {"density": 0.96}
   }
 }
