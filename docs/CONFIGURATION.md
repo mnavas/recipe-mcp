@@ -16,6 +16,7 @@ They resolve in this order, **first match wins per field**:
 | `temperature` | `RECIPE_MCP_TEMPERATURE` | `0.4` | Sampling temperature |
 | `system_prompt` | `RECIPE_MCP_SYSTEM_PROMPT` | cooking-assistant persona | System message for the assistant |
 | `densities_override` | `RECIPE_MCP_DENSITIES` | *(none)* | Path to a custom densities JSON |
+| `item_weights_override` | `RECIPE_MCP_ITEM_WEIGHTS` | *(none)* | Path to a custom piece-weights JSON |
 | `data_dir` | `RECIPE_MCP_DATA_DIR` | `~/.local/share/recipe-mcp` | Where recipes & cooking sessions are stored |
 
 ## Data directory
@@ -104,3 +105,17 @@ existing entry). Densities are in **g/ml**.
 > Reminder: use *bulk / scooped* densities (how the ingredient sits in a cup or
 > spoon), not material density, if you want the conversions to match everyday
 > kitchen measuring.
+
+## Custom piece weights
+
+Countable ingredients (eggs, cloves, whole vegetables) have a separate table,
+[`data/item_weights.json`](../data/item_weights.json), giving the weight of one
+piece in grams. Extend or override it the same way, via `item_weights_override`
+/ `RECIPE_MCP_ITEM_WEIGHTS`:
+
+```json
+{ "items": { "quail egg": {"grams": 9}, "roma tomato": 60 } }
+```
+
+Names are matched tolerantly — "fresh basil" resolves to `basil`, "red bell
+pepper" to `bell pepper` — so you usually don't need an entry per variant.

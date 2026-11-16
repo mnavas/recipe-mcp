@@ -35,6 +35,7 @@ class Config:
     temperature: float = 0.4
     system_prompt: str = DEFAULT_SYSTEM_PROMPT
     densities_override: str = ""  # optional path to a user densities JSON
+    item_weights_override: str = ""  # optional path to a user item-weights JSON
     data_dir: str = ""            # recipes + sessions; blank => default_data_dir()
 
     def resolved_data_dir(self) -> str:
@@ -71,6 +72,8 @@ def load_config() -> Config:
         cfg.system_prompt = env["RECIPE_MCP_SYSTEM_PROMPT"]
     if "RECIPE_MCP_DENSITIES" in env:
         cfg.densities_override = env["RECIPE_MCP_DENSITIES"]
+    if "RECIPE_MCP_ITEM_WEIGHTS" in env:
+        cfg.item_weights_override = env["RECIPE_MCP_ITEM_WEIGHTS"]
     if "RECIPE_MCP_DATA_DIR" in env:
         cfg.data_dir = env["RECIPE_MCP_DATA_DIR"]
     return cfg

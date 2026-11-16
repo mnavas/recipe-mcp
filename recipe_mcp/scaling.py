@@ -10,7 +10,10 @@ name must be a known ingredient (or already a weight unit).
 
 from __future__ import annotations
 
-from . import ingredients, units
+from . import ingredients, items, units
+
+# Units that contribute a negligible weight — ignored in weight totals.
+_NEGLIGIBLE_UNITS = {"pinch", "dash", "sprig", "to taste", "to_taste"}
 
 
 def _to_grams(line: dict) -> float:
@@ -20,7 +23,15 @@ def _to_grams(line: dict) -> float:
         return units.to_grams(amount, unit)
     if units.is_volume_unit(unit):
         return ingredients.volume_to_weight(line["name"], amount, unit, "g")
-    raise ValueError(f"Unknown unit {unit!r} for ingredient {line.get('name')!r}")
+    if unit.strip().lower() in _NEGLIGIBLE_UNITS:
+        return 0.0
+    # Otherwise treat the amount as a count of pieces (eggs, cloves, ...).
+    if items.has_item(line["name"]):
+        return items.count_to_weight(line["name"], amount, "g")
+    raise ValueError(
+        f"Can't weigh {amount} {unit} of {line.get('name')!r}: not a weight or "
+        f"volume unit, and no piece weight is known. Add it to the item-weights "
+        f"table, or use a weight/volume unit.")
 
 
 def total_grams(ingredient_lines: list[dict]) -> float:

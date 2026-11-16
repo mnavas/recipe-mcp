@@ -62,6 +62,32 @@ weight_to_volume("granulated sugar", 200, "g", "cup")  # → ~1.0 cup
 ### `list_ingredients()`
 Returns every known ingredient with its density and a note (e.g. *"1 cup ~ 125 g"*).
 
+---
+
+## Countable items: count ↔ weight
+
+A separate table gives the weight of **one piece** of countable ingredients, so
+counts can be turned into grams (and recipes with eggs/cloves can be scaled by
+weight). See [`data/item_weights.json`](../data/item_weights.json).
+
+### `item_weight(item)` / `list_item_weights()`
+```python
+item_weight("egg")      # → {"item": "egg", "grams_each": 50}
+```
+
+### `count_to_weight(item, count, weight_unit)` / `weight_to_count(...)`
+```python
+count_to_weight("egg", 2)          # → 100 g
+count_to_weight("garlic", 3)       # → 15 g  ("garlic clove" ≈ 5 g)
+weight_to_count("potato", 340)     # → ~2 potatoes
+```
+Names are matched tolerantly: *"fresh basil"* → `basil`, *"red bell pepper"* →
+`bell pepper`. These weights also feed `recipe_to_percentages`,
+`bakers_percentages` and weight-based scaling, so a recipe listing "2 eggs"
+still has a total weight. Units like `pinch`/`dash` count as ~0 g.
+
+---
+
 > **Accuracy note:** densities are *bulk / scooped* values tuned to common
 > cooking charts, not laboratory material density. Granular ingredients vary with
 > packing — treat them as close approximations. Add your own with a

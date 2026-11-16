@@ -5,6 +5,7 @@ any MCP client (Claude Desktop, Claude Code, etc.) tools to:
 
 - **Convert units** — weight (mg/g/kg/oz/lb/stone) and volume (ml/l/cup/tbsp/tsp/fl oz, US + metric + imperial).
 - **Convert weight ↔ volume per ingredient** — using a bulk-density table, so "how many grams is 1 tbsp of table salt?" or "how much volume is 1 g of salt?" are answerable when your scale isn't precise to the gram.
+- **Convert counts ↔ weight** — a piece-weight table (1 egg ≈ 50 g, 1 garlic clove ≈ 5 g) so "2 eggs" has a weight, and recipes with countable items can still be scaled by total weight.
 - **Scale recipes** — by a factor or by changing the yield (e.g. 8 → 12 servings).
 - **Percentages & ratios** — ingredient-as-%-of-total, **baker's percentages** (flour = 100%), and solving ratios like 3:2:1.
 - **Store & retrieve recipes** — save recipes, search them, adjust servings/target weight, and even change an ingredient's stored unit.
@@ -114,6 +115,8 @@ npx @modelcontextprotocol/inspector .venv/bin/python -m recipe_mcp
 | `list_units` | All supported unit names |
 | `list_ingredients` / `ingredient_density` | Browse the density table (g/ml) |
 | `weight_to_volume` / `volume_to_weight` | Per-ingredient weight ↔ volume |
+| `list_item_weights` / `item_weight` | Browse / get the weight of one piece (1 egg ≈ 50 g) |
+| `count_to_weight` / `weight_to_count` | Convert counts ↔ grams (2 eggs → 100 g) |
 | `scale_recipe` | Rescale by `factor` or `from_yield`/`to_yield` |
 | `recipe_to_percentages` | Each ingredient as % of total weight |
 | `bakers_percentages` | Flour = 100%, others relative to flour |
@@ -172,6 +175,7 @@ Copy `config.example.json` to `config.json` to persist, or use env vars:
 | `temperature` | `RECIPE_MCP_TEMPERATURE` | `0.4` |
 | `system_prompt` | `RECIPE_MCP_SYSTEM_PROMPT` | cooking-assistant persona |
 | `densities_override` | `RECIPE_MCP_DENSITIES` | *(none)* |
+| `item_weights_override` | `RECIPE_MCP_ITEM_WEIGHTS` | *(none)* |
 | `data_dir` | `RECIPE_MCP_DATA_DIR` | `~/.local/share/recipe-mcp` |
 
 `set_config(..., persist=True)` writes `config.json` for you. Recipes live in
@@ -205,14 +209,16 @@ recipe_mcp/
   server.py       MCP server — wires tools to the modules
   units.py        weight & volume conversion
   ingredients.py  density table + weight/volume conversion
+  items.py        piece-weight table + count/weight conversion
   scaling.py      scaling, percentages, baker's %, ratios
   assistant.py    Ollama cooking assistant
   storage.py      recipe store (save/get/search/edit/convert units)
   cooking.py      cook-along sessions (scale + step tracking)
   config.py       settings (env / config.json / defaults)
   cli.py          terminal commands
-data/densities.json
-examples/         a sample recipe to import
+data/densities.json      ingredient bulk densities (g/ml)
+data/item_weights.json   piece weights for countable items (g each)
+examples/         sixteen staple recipes to import
 docs/             landing page + EXAMPLES.md + CONFIGURATION.md
 tests/
 ```

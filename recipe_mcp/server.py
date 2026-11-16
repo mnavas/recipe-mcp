@@ -9,15 +9,20 @@ from typing import Any
 
 from mcp.server.mcpserver import MCPServer
 
-from . import assistant, config, cooking, ingredients, scaling, storage, units
+from . import assistant, config, cooking, ingredients, items, scaling, storage, units
 
 mcp = MCPServer("recipe-mcp")
 
-# Load config and apply any densities override once at import time.
+# Load config and apply any override tables once at import time.
 _CFG = config.load_config()
 if _CFG.densities_override:
     try:
         ingredients.load_overrides(_CFG.densities_override)
+    except OSError:
+        pass
+if _CFG.item_weights_override:
+    try:
+        items.load_overrides(_CFG.item_weights_override)
     except OSError:
         pass
 
@@ -84,6 +89,35 @@ def volume_to_weight(ingredient: str, value: float, volume_unit: str = "ml",
     result = ingredients.volume_to_weight(ingredient, value, volume_unit, weight_unit)
     return {"ingredient": ingredient, "input": f"{value} {volume_unit}",
             "result": result, "unit": weight_unit}
+
+
+# --------------------------------------------------------------------------- #
+# Countable items: count <-> weight
+# --------------------------------------------------------------------------- #
+@mcp.tool()
+def list_item_weights() -> list[dict]:
+    """List countable ingredients and the weight (g) of one piece."""
+    return items.list_items()
+
+
+@mcp.tool()
+def item_weight(item: str) -> dict:
+    """Weight of one piece of a countable ingredient (e.g. 1 egg ≈ 50 g)."""
+    return {"item": item, "grams_each": items.grams_each(item)}
+
+
+@mcp.tool()
+def count_to_weight(item: str, count: float, weight_unit: str = "g") -> dict:
+    """Weight of a number of pieces (e.g. 2 eggs -> grams)."""
+    result = items.count_to_weight(item, count, weight_unit)
+    return {"item": item, "count": count, "result": result, "unit": weight_unit}
+
+
+@mcp.tool()
+def weight_to_count(item: str, value: float, weight_unit: str = "g") -> dict:
+    """How many pieces a weight corresponds to (e.g. 250 g potato -> ~1.5)."""
+    result = items.weight_to_count(item, value, weight_unit)
+    return {"item": item, "input": f"{value} {weight_unit}", "pieces": result}
 
 
 # --------------------------------------------------------------------------- #

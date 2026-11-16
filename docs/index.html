@@ -131,7 +131,7 @@
       <a class="btn primary" href="#install">Get started →</a>
       <a class="btn ghost" href="https://github.com/mnavas/recipe-mcp">View on GitHub</a>
     </div>
-    <p class="note">Python · <b>33 tools</b> · no API keys · no data leaves your computer</p>
+    <p class="note">Python · <b>37 tools</b> · no API keys · no data leaves your computer</p>
   </div>
 
   <section id="features">
@@ -141,6 +141,7 @@
       <div class="grid">
         <div class="card"><div class="ic">⚖️</div><h3>Unit conversion</h3><p>Weight (mg · g · kg · oz · lb · stone) and volume (ml · l · cup · tbsp · tsp · fl oz) with US, metric and imperial variants.</p></div>
         <div class="card"><div class="ic">🧂</div><h3>Weight ⇄ volume</h3><p>A bulk-density table for 40+ common ingredients. “How many grams is 1 tbsp of salt?” when your scale isn't precise to the gram.</p></div>
+        <div class="card"><div class="ic">🥚</div><h3>Counts ⇄ weight</h3><p>A piece-weight table — 1 egg ≈ 50 g, 1 clove ≈ 5 g — so “2 eggs” has a weight and recipes with whole items can scale by total weight.</p></div>
         <div class="card"><div class="ic">📐</div><h3>Scaling</h3><p>Rescale a whole recipe by a factor or by changing the yield — 8 servings to 12 — keeping every amount in proportion.</p></div>
         <div class="card"><div class="ic">🥖</div><h3>Baker's percentages</h3><p>Flour = 100%, everything relative to flour. Read a formula from a recipe, or turn a formula into weights for any batch size.</p></div>
         <div class="card"><div class="ic">🧮</div><h3>Ratios &amp; percentages</h3><p>Solve ratios like 3:2:1 from a total or one known amount, and express any ingredient list as a share of total weight.</p></div>
@@ -248,7 +249,7 @@ npx @modelcontextprotocol/inspector \
 
   <section id="tools">
     <div class="wrap">
-      <h2>The 33 tools</h2>
+      <h2>The 37 tools</h2>
       <p class="sub">Each is a typed MCP tool your client can call directly.</p>
       <div class="tools">
         <div class="tool"><code>convert_weight</code><span>mg·g·kg·oz·lb·stone</span></div>
@@ -258,6 +259,10 @@ npx @modelcontextprotocol/inspector \
         <div class="tool"><code>ingredient_density</code><span>g/ml for one ingredient</span></div>
         <div class="tool"><code>weight_to_volume</code><span>e.g. 10 g salt → ml</span></div>
         <div class="tool"><code>volume_to_weight</code><span>e.g. 1 tbsp salt → g</span></div>
+        <div class="tool"><code>list_item_weights</code><span>piece weights</span></div>
+        <div class="tool"><code>item_weight</code><span>1 egg ≈ 50 g</span></div>
+        <div class="tool"><code>count_to_weight</code><span>2 eggs → 100 g</span></div>
+        <div class="tool"><code>weight_to_count</code><span>340 g potato → 2</span></div>
         <div class="tool"><code>scale_recipe</code><span>by factor or yield</span></div>
         <div class="tool"><code>recipe_to_percentages</code><span>% of total weight</span></div>
         <div class="tool"><code>bakers_percentages</code><span>flour = 100%</span></div>

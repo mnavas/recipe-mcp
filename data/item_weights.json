@@ -1,0 +1,37 @@
+{
+  "_meta": {
+    "unit": "g per piece",
+    "note": "Approximate edible weight of one typical piece of a countable ingredient, for turning counts into grams. Sizes vary a lot; these are medium/large averages. Override or extend via a user item-weights file.",
+    "sources": "Standard USDA/common culinary averages."
+  },
+  "items": {
+    "egg":            {"grams": 50,  "note": "1 large egg, out of shell (~57 g in shell)"},
+    "egg white":      {"grams": 33,  "note": "1 large egg white"},
+    "egg yolk":       {"grams": 17,  "note": "1 large egg yolk"},
+    "garlic":         {"grams": 5,   "note": "1 clove"},
+    "shallot":        {"grams": 30,  "note": "1 medium"},
+    "onion":          {"grams": 150, "note": "1 medium"},
+    "scallion":       {"grams": 15,  "note": "1 stalk (green onion)"},
+    "potato":         {"grams": 170, "note": "1 medium"},
+    "carrot":         {"grams": 60,  "note": "1 medium"},
+    "celery":         {"grams": 40,  "note": "1 stalk"},
+    "tomato":         {"grams": 120, "note": "1 medium"},
+    "bell pepper":    {"grams": 120, "note": "1 medium"},
+    "jalapeno":       {"grams": 15,  "note": "1 pepper"},
+    "mushroom":       {"grams": 20,  "note": "1 button mushroom"},
+    "lemon":          {"grams": 100, "note": "1 whole (~45 ml juice)"},
+    "lime":           {"grams": 70,  "note": "1 whole (~30 ml juice)"},
+    "apple":          {"grams": 180, "note": "1 medium"},
+    "banana":         {"grams": 120, "note": "1 medium, peeled"},
+    "strawberry":     {"grams": 12,  "note": "1 medium"},
+    "ginger":         {"grams": 15,  "note": "1 thumb-sized piece"},
+    "basil":          {"grams": 0.5, "note": "1 leaf"},
+    "bay leaf":       {"grams": 0.2, "note": "1 leaf"},
+    "bread":          {"grams": 30,  "note": "1 sandwich slice"},
+    "bacon":          {"grams": 15,  "note": "1 strip"},
+    "sausage":        {"grams": 75,  "note": "1 link"},
+    "chicken breast": {"grams": 175, "note": "1 boneless, skinless"},
+    "chicken thigh":  {"grams": 120, "note": "1 boneless, skinless"},
+    "butter stick":   {"grams": 113, "note": "1 US stick (1/2 cup)"}
+  }
+}
