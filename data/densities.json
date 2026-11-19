@@ -49,6 +49,8 @@
     "lard":                  {"density": 0.92, "note": "rendered pork fat, solid"},
     "vegetable shortening":  {"density": 0.87, "note": "solid (e.g. Crisco); 1 cup ~ 205 g"},
     "vegetable lard":        {"density": 0.87, "note": "= vegetable shortening / manteca vegetal"},
-    "coconut oil":           {"density": 0.92}
+    "coconut oil":           {"density": 0.92},
+    "powdered milk":         {"density": 0.45, "note": "dry milk powder; varies a lot (instant nonfat ~0.3, whole ~0.5)"},
+    "milk powder":           {"density": 0.45, "note": "= powdered milk"}
   }
 }
