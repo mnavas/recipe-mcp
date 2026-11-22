@@ -9,8 +9,8 @@ from typing import Any
 
 from mcp.server.mcpserver import MCPServer
 
-from . import (assistant, config, cooking, ingredients, items, scaling,
-               storage, temperature, units)
+from . import (altitude, assistant, config, cooking, ingredients, items,
+               scaling, storage, temperature, units, yeast)
 
 mcp = MCPServer("recipe-mcp")
 
@@ -30,6 +30,9 @@ if _CFG.item_weights_override:
 # Recipe store + cooking sessions, persisted under the data dir.
 _RECIPES = storage.RecipeStore(_CFG.resolved_data_dir())
 _COOKING = cooking.CookingStore(_CFG.resolved_data_dir(), _RECIPES)
+
+# Module alias so the `altitude` tool parameter doesn't shadow the module.
+_ALT = altitude
 
 
 # --------------------------------------------------------------------------- #
@@ -90,6 +93,53 @@ def volume_to_weight(ingredient: str, value: float, volume_unit: str = "ml",
     result = ingredients.volume_to_weight(ingredient, value, volume_unit, weight_unit)
     return {"ingredient": ingredient, "input": f"{value} {volume_unit}",
             "result": result, "unit": weight_unit}
+
+
+# --------------------------------------------------------------------------- #
+# Altitude & leavening
+# --------------------------------------------------------------------------- #
+def _altitude_or_default(altitude, unit):
+    if altitude is None:
+        return _CFG.altitude_m, "m"
+    return altitude, unit
+
+
+@mcp.tool()
+def water_boiling_point(altitude: float | None = None, unit: str = "m") -> dict:
+    """Boiling point of water at an altitude (defaults to the configured home altitude).
+
+    Explains why boiled/simmered foods take longer and when a pressure cooker helps.
+    """
+    alt, u = _altitude_or_default(altitude, unit)
+    return _ALT.boiling_point(alt, u)
+
+
+@mcp.tool()
+def altitude_baking_adjustments(altitude: float | None = None, unit: str = "m",
+                                oven_temp: float | None = None, oven_unit: str = "C",
+                                baking_powder_tsp: float | None = None,
+                                baking_soda_tsp: float | None = None,
+                                sugar_cups: float | None = None,
+                                liquid_cups: float | None = None,
+                                has_yeast: bool = False) -> dict:
+    """High-altitude baking adjustments (oven temp, leavening, sugar, liquid).
+
+    Altitude defaults to the configured home altitude. Pass whichever recipe
+    amounts you have and each is adjusted, with explanatory notes.
+    """
+    alt, u = _altitude_or_default(altitude, unit)
+    return _ALT.baking_adjustments(
+        alt, u, oven_temp=oven_temp, oven_unit=oven_unit,
+        baking_powder_tsp=baking_powder_tsp, baking_soda_tsp=baking_soda_tsp,
+        sugar_cups=sugar_cups, liquid_cups=liquid_cups, has_yeast=has_yeast)
+
+
+@mcp.tool()
+def convert_yeast(amount: float, from_type: str, to_type: str, unit: str = "g") -> dict:
+    """Convert between yeast types: fresh, active dry, instant (default grams)."""
+    result = yeast.convert_yeast(amount, from_type, to_type, unit)
+    return {"amount": amount, "from": from_type, "to": to_type,
+            "result": round(result, 3), "unit": unit}
 
 
 # --------------------------------------------------------------------------- #

@@ -7,6 +7,7 @@ any MCP client (Claude Desktop, Claude Code, etc.) tools to:
 - **Convert weight ↔ volume per ingredient** — using a bulk-density table, so "how many grams is 1 tbsp of table salt?" or "how much volume is 1 g of salt?" are answerable when your scale isn't precise to the gram.
 - **Convert counts ↔ weight** — a piece-weight table (1 egg ≈ 50 g, 1 garlic clove ≈ 5 g) so "2 eggs" has a weight, and recipes with countable items can still be scaled by total weight.
 - **Temperature & oven** — °C/°F/°K conversion, UK gas marks, fan-oven adjustment, and a one-stop oven breakdown (e.g. 180 °C → 356 °F, gas 4, fan 160 °C, "moderate").
+- **Altitude** — water's boiling point at your elevation (why things boil cooler and take longer), high-altitude baking adjustments (leavening, sugar, liquid, oven temp), and yeast-type conversion (fresh ↔ active dry ↔ instant).
 - **Scale recipes** — by a factor or by changing the yield (e.g. 8 → 12 servings).
 - **Percentages & ratios** — ingredient-as-%-of-total, **baker's percentages** (flour = 100%), and solving ratios like 3:2:1.
 - **Store & retrieve recipes** — save recipes, search them, adjust servings/target weight, and even change an ingredient's stored unit.
@@ -51,6 +52,7 @@ recipe-mcp-cli vtow "table salt" 1 tbsp g  # 1 tbsp salt = 18.04 g
 recipe-mcp-cli wtov "all-purpose flour" 125 g cup
 recipe-mcp-cli ingredients                 # list the density table
 recipe-mcp-cli oven 180 C                  # 180C = 356F · gas 4 · fan 160C
+recipe-mcp-cli boil 2850 m                 # water boils at 90C at 2850 m
 recipe-mcp-cli ask "why weigh flour instead of cups?"   # needs Ollama
 ```
 
@@ -123,6 +125,9 @@ npx @modelcontextprotocol/inspector .venv/bin/python -m recipe_mcp
 | `oven_temperature` | Full oven breakdown: C, F, gas mark, fan, description |
 | `gas_mark_to_temperature` | UK gas mark → °C/°F |
 | `fan_oven` | Conventional ↔ fan-oven temperature |
+| `water_boiling_point` | Boiling point at an altitude (+ cooking note) |
+| `altitude_baking_adjustments` | High-altitude recipe fixes (leavening, sugar, liquid, oven) |
+| `convert_yeast` | Fresh ↔ active dry ↔ instant yeast |
 | `scale_recipe` | Rescale by `factor` or `from_yield`/`to_yield` |
 | `recipe_to_percentages` | Each ingredient as % of total weight |
 | `bakers_percentages` | Flour = 100%, others relative to flour |
@@ -205,6 +210,7 @@ Copy `config.example.json` to `config.json` to persist, or use env vars:
 | `system_prompt` | `RECIPE_MCP_SYSTEM_PROMPT` | cooking-assistant persona |
 | `densities_override` | `RECIPE_MCP_DENSITIES` | *(none)* |
 | `item_weights_override` | `RECIPE_MCP_ITEM_WEIGHTS` | *(none)* |
+| `altitude_m` | `RECIPE_MCP_ALTITUDE_M` | `0` (home altitude in metres) |
 | `data_dir` | `RECIPE_MCP_DATA_DIR` | `~/.local/share/recipe-mcp` |
 
 `set_config(..., persist=True)` writes `config.json` for you. Recipes live in
@@ -240,6 +246,8 @@ recipe_mcp/
   ingredients.py  density table + weight/volume conversion
   items.py        piece-weight table + count/weight conversion
   temperature.py  C/F/K, gas marks, fan oven, oven breakdown
+  altitude.py     boiling point + high-altitude baking adjustments
+  yeast.py        fresh / active dry / instant yeast conversion
   scaling.py      scaling, percentages, baker's %, ratios
   assistant.py    Ollama cooking assistant
   storage.py      recipe store (save/get/search/edit/convert units)

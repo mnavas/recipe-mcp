@@ -64,6 +64,16 @@ def _oven(args) -> int:
     return 0
 
 
+def _boil(args) -> int:
+    from . import altitude, config
+    alt = args.altitude if args.altitude is not None else config.load_config().altitude_m
+    b = altitude.boiling_point(alt, args.unit)
+    print(f"At {b['altitude_m']} m ({b['altitude_ft']} ft), water boils at "
+          f"{b['boiling_point_c']}C / {b['boiling_point_f']}F")
+    print(f"  {b['note']}")
+    return 0
+
+
 def _store():
     from . import config, storage
     return storage.RecipeStore(config.load_config().resolved_data_dir())
@@ -172,6 +182,11 @@ def build_parser() -> argparse.ArgumentParser:
     ov.add_argument("value", type=float)
     ov.add_argument("unit", nargs="?", default="C")
     ov.set_defaults(func=_oven)
+
+    bo = sub.add_parser("boil", help="water boiling point at altitude")
+    bo.add_argument("altitude", nargs="?", type=float, default=None)
+    bo.add_argument("unit", nargs="?", default="m")
+    bo.set_defaults(func=_boil)
 
     sub.add_parser("recipes", help="list stored recipes").set_defaults(func=_recipes)
 

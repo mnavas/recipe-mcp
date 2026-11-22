@@ -92,6 +92,36 @@ fan_oven(160, "C", "conventional")          # → 180 C
 
 ---
 
+## Altitude & leavening
+
+Defaults to the configured home altitude (`altitude_m` / `RECIPE_MCP_ALTITUDE_M`).
+
+### `water_boiling_point(altitude=None, unit="m")`
+```python
+water_boiling_point(2850)        # ~Quito
+# → {"boiling_point_c": 90.0, "boiling_point_f": 194.0,
+#    "note": "boils well below 100 C — ... a pressure cooker restores ~100 C+ ..."}
+```
+
+### `altitude_baking_adjustments(altitude=None, ...)`
+Pass whichever recipe amounts you have; each is adjusted with an explanation.
+```python
+altitude_baking_adjustments(2850, oven_temp=180, oven_unit="C",
+                            baking_powder_tsp=2, sugar_cups=1.5,
+                            liquid_cups=1, has_yeast=True)
+# → band "6,500+ ft"; oven 180 -> 194 C; baking powder 2 -> 1.5 tsp;
+#   sugar 1.5 -> 1.22 cup; liquid 1 -> 1.22 cup; + notes (check early, cut yeast ~25%)
+```
+
+### `convert_yeast(amount, from_type, to_type, unit="g")`
+```python
+convert_yeast(30, "fresh", "instant")       # → ~9.9 g
+convert_yeast(7, "instant", "active dry")   # → ~8.5 g
+```
+Types: `fresh`, `active dry`, `instant` (by weight; fresh:dry:instant ≈ 1 : 0.4 : 0.33).
+
+---
+
 ## Countable items: count ↔ weight
 
 A separate table gives the weight of **one piece** of countable ingredients, so

@@ -17,6 +17,7 @@ They resolve in this order, **first match wins per field**:
 | `system_prompt` | `RECIPE_MCP_SYSTEM_PROMPT` | cooking-assistant persona | System message for the assistant |
 | `densities_override` | `RECIPE_MCP_DENSITIES` | *(none)* | Path to a custom densities JSON |
 | `item_weights_override` | `RECIPE_MCP_ITEM_WEIGHTS` | *(none)* | Path to a custom piece-weights JSON |
+| `altitude_m` | `RECIPE_MCP_ALTITUDE_M` | `0` | Home altitude in metres — the default for the altitude tools |
 | `data_dir` | `RECIPE_MCP_DATA_DIR` | `~/.local/share/recipe-mcp` | Where recipes & cooking sessions are stored |
 
 ## Data directory

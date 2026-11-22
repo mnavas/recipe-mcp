@@ -40,6 +40,7 @@ class Config:
     system_prompt: str = DEFAULT_SYSTEM_PROMPT
     densities_override: str = ""  # optional path to a user densities JSON
     item_weights_override: str = ""  # optional path to a user item-weights JSON
+    altitude_m: float = 0.0       # home altitude (metres) for altitude tools
     data_dir: str = ""            # recipes + sessions; blank => default_data_dir()
 
     def resolved_data_dir(self) -> str:
@@ -78,6 +79,11 @@ def load_config() -> Config:
         cfg.densities_override = env["RECIPE_MCP_DENSITIES"]
     if "RECIPE_MCP_ITEM_WEIGHTS" in env:
         cfg.item_weights_override = env["RECIPE_MCP_ITEM_WEIGHTS"]
+    if "RECIPE_MCP_ALTITUDE_M" in env:
+        try:
+            cfg.altitude_m = float(env["RECIPE_MCP_ALTITUDE_M"])
+        except ValueError:
+            pass
     if "RECIPE_MCP_DATA_DIR" in env:
         cfg.data_dir = env["RECIPE_MCP_DATA_DIR"]
     return cfg
