@@ -32,7 +32,7 @@ def test_bad_pan():
 def test_salt_table_to_kosher_diamond():
     # 1 tsp table (1.22) -> Diamond kosher (0.58): ~2.1 tsp
     r = salt.convert_salt(1, "table", "kosher diamond", "tsp")
-    assert math.isclose(r["result"], 1.22 / 0.58, rel_tol=1e-6)
+    assert math.isclose(r["result"], 1.22 / 0.58, abs_tol=0.01)  # result is rounded to 3dp
 
 
 def test_salt_weight_unchanged():
@@ -44,7 +44,7 @@ def test_salt_weight_unchanged():
 def test_gelatin_sheet_to_powder():
     r = conditions.convert_gelatin(4, "sheet", "powder")
     assert r["grams"] == 8.0
-    assert math.isclose(r["powder_tsp"], 8.0 / 3.1, rel_tol=1e-6)
+    assert math.isclose(r["powder_tsp"], 8.0 / 3.1, abs_tol=0.01)  # rounded to 2dp
 
 
 def test_gelatin_powder_to_sheet():
