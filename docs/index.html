@@ -131,7 +131,7 @@
       <a class="btn primary" href="#install">Get started →</a>
       <a class="btn ghost" href="https://github.com/mnavas/recipe-mcp">View on GitHub</a>
     </div>
-    <p class="note">Python · <b>44 tools</b> · no API keys · no data leaves your computer</p>
+    <p class="note">Python · <b>51 tools</b> · no API keys · no data leaves your computer</p>
   </div>
 
   <section id="features">
@@ -144,6 +144,7 @@
         <div class="card"><div class="ic">🥚</div><h3>Counts ⇄ weight</h3><p>A piece-weight table — 1 egg ≈ 50 g, 1 clove ≈ 5 g — so “2 eggs” has a weight and recipes with whole items can scale by total weight.</p></div>
         <div class="card"><div class="ic">🌡️</div><h3>Temperature &amp; oven</h3><p>°C/°F/°K, UK gas marks and fan-oven adjustment. One call turns 180 °C into 356 °F, gas 4, fan 160 °C — “moderate”.</p></div>
         <div class="card"><div class="ic">⛰️</div><h3>Altitude</h3><p>Water's boiling point at your elevation, high-altitude baking fixes (leavening, sugar, liquid, oven temp), and fresh ↔ dry ↔ instant yeast conversion.</p></div>
+        <div class="card"><div class="ic">🧪</div><h3>Conditions &amp; swaps</h3><p>Salt-type swaps, gelatin sheets ↔ powder, pan-size scaling by area, what doesn't scale linearly, humidity tips, pressure-cooker timing, oven calibration.</p></div>
         <div class="card"><div class="ic">📐</div><h3>Scaling</h3><p>Rescale a whole recipe by a factor or by changing the yield — 8 servings to 12 — keeping every amount in proportion.</p></div>
         <div class="card"><div class="ic">🥖</div><h3>Baker's percentages</h3><p>Flour = 100%, everything relative to flour. Read a formula from a recipe, or turn a formula into weights for any batch size.</p></div>
         <div class="card"><div class="ic">🧮</div><h3>Ratios &amp; percentages</h3><p>Solve ratios like 3:2:1 from a total or one known amount, and express any ingredient list as a share of total weight.</p></div>
@@ -257,7 +258,7 @@ npx @modelcontextprotocol/inspector \
 
   <section id="tools">
     <div class="wrap">
-      <h2>The 44 tools</h2>
+      <h2>The 51 tools</h2>
       <p class="sub">Each is a typed MCP tool your client can call directly.</p>
       <div class="tools">
         <div class="tool"><code>convert_weight</code><span>mg·g·kg·oz·lb·stone</span></div>
@@ -269,6 +270,13 @@ npx @modelcontextprotocol/inspector \
         <div class="tool"><code>water_boiling_point</code><span>boils cooler up high</span></div>
         <div class="tool"><code>altitude_baking_adjustments</code><span>fix a recipe for altitude</span></div>
         <div class="tool"><code>convert_yeast</code><span>fresh ↔ dry ↔ instant</span></div>
+        <div class="tool"><code>convert_salt</code><span>table ↔ kosher ↔ flaky</span></div>
+        <div class="tool"><code>convert_gelatin</code><span>sheets ↔ powder</span></div>
+        <div class="tool"><code>scale_for_pan</code><span>between pan sizes</span></div>
+        <div class="tool"><code>scaling_caveats</code><span>what won't scale</span></div>
+        <div class="tool"><code>humidity_tip</code><span>dough by humidity</span></div>
+        <div class="tool"><code>pressure_cooker_time</code><span>conventional → PC</span></div>
+        <div class="tool"><code>oven_calibration</code><span>fix an off oven</span></div>
         <div class="tool"><code>list_units</code><span>every supported unit</span></div>
         <div class="tool"><code>list_ingredients</code><span>browse the density table</span></div>
         <div class="tool"><code>ingredient_density</code><span>g/ml for one ingredient</span></div>

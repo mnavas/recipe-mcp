@@ -8,6 +8,7 @@ any MCP client (Claude Desktop, Claude Code, etc.) tools to:
 - **Convert counts ↔ weight** — a piece-weight table (1 egg ≈ 50 g, 1 garlic clove ≈ 5 g) so "2 eggs" has a weight, and recipes with countable items can still be scaled by total weight.
 - **Temperature & oven** — °C/°F/°K conversion, UK gas marks, fan-oven adjustment, and a one-stop oven breakdown (e.g. 180 °C → 356 °F, gas 4, fan 160 °C, "moderate").
 - **Altitude** — water's boiling point at your elevation (why things boil cooler and take longer), high-altitude baking adjustments (leavening, sugar, liquid, oven temp), and yeast-type conversion (fresh ↔ active dry ↔ instant).
+- **Conditions & substitutions** — salt-type swaps (table ↔ kosher ↔ flaky, equal saltiness), gelatin sheets ↔ powder, pan-size scaling by area, scaling caveats (what doesn't scale linearly), humidity tips, pressure-cooker timing, and oven-calibration offset.
 - **Scale recipes** — by a factor or by changing the yield (e.g. 8 → 12 servings).
 - **Percentages & ratios** — ingredient-as-%-of-total, **baker's percentages** (flour = 100%), and solving ratios like 3:2:1.
 - **Store & retrieve recipes** — save recipes, search them, adjust servings/target weight, and even change an ingredient's stored unit.
@@ -128,6 +129,13 @@ npx @modelcontextprotocol/inspector .venv/bin/python -m recipe_mcp
 | `water_boiling_point` | Boiling point at an altitude (+ cooking note) |
 | `altitude_baking_adjustments` | High-altitude recipe fixes (leavening, sugar, liquid, oven) |
 | `convert_yeast` | Fresh ↔ active dry ↔ instant yeast |
+| `convert_salt` | Table ↔ kosher ↔ flaky, equal saltiness |
+| `convert_gelatin` | Sheets ↔ powder |
+| `scale_for_pan` | Move a recipe between pan sizes (by area) |
+| `scaling_caveats` | What doesn't scale linearly (leavening, salt, time) |
+| `humidity_tip` | Dough advice for the day's humidity |
+| `pressure_cooker_time` | Conventional → pressure-cooker time (altitude-aware) |
+| `oven_calibration` | Dial setting for your oven's real temperature |
 | `scale_recipe` | Rescale by `factor` or `from_yield`/`to_yield` |
 | `recipe_to_percentages` | Each ingredient as % of total weight |
 | `bakers_percentages` | Flour = 100%, others relative to flour |
@@ -248,6 +256,9 @@ recipe_mcp/
   temperature.py  C/F/K, gas marks, fan oven, oven breakdown
   altitude.py     boiling point + high-altitude baking adjustments
   yeast.py        fresh / active dry / instant yeast conversion
+  salt.py         salt-type swaps by volume (equal saltiness)
+  pans.py         pan-size scaling by surface area
+  conditions.py   humidity, pressure cooker, gelatin, oven calibration
   scaling.py      scaling, percentages, baker's %, ratios
   assistant.py    Ollama cooking assistant
   storage.py      recipe store (save/get/search/edit/convert units)

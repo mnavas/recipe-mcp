@@ -122,6 +122,39 @@ Types: `fresh`, `active dry`, `instant` (by weight; fresh:dry:instant ≈ 1 : 0.
 
 ---
 
+## Conditions & substitutions
+
+### `convert_salt(amount, from_type, to_type, unit="tsp")`
+```python
+convert_salt(1, "table", "kosher diamond")   # → ~2.1 tsp (same saltiness)
+convert_salt(1, "table", "kosher morton")    # → ~1.27 tsp
+```
+Types: table, fine sea, kosher (Diamond), kosher morton, coarse sea, flaky/maldon.
+Equal weight = equal saltiness; the volume changes because crystals differ.
+
+### `convert_gelatin(amount, from_type, to_type)`
+```python
+convert_gelatin(4, "sheet", "powder")   # → 8 g = ~2.58 tsp powder
+convert_gelatin(8, "powder", "sheet")   # → 4 sheets  (amount in grams for powder)
+```
+
+### `scale_for_pan(from_pan, to_pan)`  ·  `scaling_caveats(factor)`
+```python
+scale_for_pan("round:20", "round:24")   # → area_factor 1.44 (multiply ingredients)
+scale_for_pan("round:20", "rect:23x33") # → ~2.42x
+scaling_caveats(2)   # notes: leavening/salt/time don't scale linearly
+```
+
+### `humidity_tip(humidity_percent)`  ·  `oven_calibration(...)`  ·  `pressure_cooker_time(...)`
+```python
+humidity_tip(80)                                   # → "humid": hold back liquid...
+oven_calibration(set_temp=180, actual_temp=195, target_temp=180)
+# → runs 15° hot; set the dial to 165 to get 180 inside
+pressure_cooker_time(90, altitude=2850)            # 90 min conventional → ~41 min
+```
+
+---
+
 ## Countable items: count ↔ weight
 
 A separate table gives the weight of **one piece** of countable ingredients, so

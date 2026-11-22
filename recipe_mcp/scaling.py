@@ -34,6 +34,28 @@ def _to_grams(line: dict) -> float:
         f"table, or use a weight/volume unit.")
 
 
+def scaling_caveats(factor: float) -> dict:
+    """What doesn't scale linearly when you multiply a recipe by `factor`."""
+    f = float(factor)
+    notes = [
+        "Eggs and other whole items: round to whole units and adjust liquid slightly.",
+        "Baking time barely changes with batch size — it tracks the depth/thickness "
+        "in the pan, not the total volume. Use a bigger pan or more pans, and check doneness.",
+        "Salt, spices, extracts and strong aromatics (garlic, chilli): scale to about "
+        "75-90% first, then adjust to taste — they can overpower when scaled up.",
+    ]
+    if f >= 2:
+        notes.append("Leavening (baking powder/soda/yeast): for big scale-ups, reduce "
+                     "~10-15% below linear or it can over-rise then collapse.")
+        notes.append("Mixing/cooking times grow; mix in batches if your bowl/pan is small.")
+    elif f <= 0.5:
+        notes.append("Scaling down: leavening and salt scale fine, but very small egg "
+                     "fractions are awkward — beat an egg and weigh out the fraction.")
+    notes.append("Baker's-percentage ingredients (flour, water, salt by weight) scale "
+                 "linearly and are safe to multiply directly.")
+    return {"factor": round(f, 3), "caveats": notes}
+
+
 def total_grams(ingredient_lines: list[dict]) -> float:
     """Total weight of an ingredient list in grams (volumes via density)."""
     return sum(_to_grams(l) for l in ingredient_lines)

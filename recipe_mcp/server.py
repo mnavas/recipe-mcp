@@ -9,8 +9,8 @@ from typing import Any
 
 from mcp.server.mcpserver import MCPServer
 
-from . import (altitude, assistant, config, cooking, ingredients, items,
-               scaling, storage, temperature, units, yeast)
+from . import (altitude, assistant, conditions, config, cooking, ingredients,
+               items, pans, salt, scaling, storage, temperature, units, yeast)
 
 mcp = MCPServer("recipe-mcp")
 
@@ -140,6 +140,69 @@ def convert_yeast(amount: float, from_type: str, to_type: str, unit: str = "g") 
     result = yeast.convert_yeast(amount, from_type, to_type, unit)
     return {"amount": amount, "from": from_type, "to": to_type,
             "result": round(result, 3), "unit": unit}
+
+
+@mcp.tool()
+def pressure_cooker_time(conventional_minutes: float, altitude: float | None = None,
+                         unit: str = "m") -> dict:
+    """Estimate pressure-cooker time from a conventional simmer/boil time.
+
+    Altitude (defaults to the configured home altitude) slightly increases it.
+    """
+    alt, u = _altitude_or_default(altitude, unit)
+    return conditions.pressure_cooker_time(conventional_minutes, _ALT.to_metres(alt, u))
+
+
+# --------------------------------------------------------------------------- #
+# Substitutions & conditions
+# --------------------------------------------------------------------------- #
+@mcp.tool()
+def convert_salt(amount: float, from_type: str, to_type: str, unit: str = "tsp") -> dict:
+    """Swap one salt type for another keeping saltiness equal (e.g. table → kosher).
+
+    Types: table, fine sea, kosher (Diamond), kosher morton, coarse sea, flaky/maldon.
+    """
+    return salt.convert_salt(amount, from_type, to_type, unit)
+
+
+@mcp.tool()
+def convert_gelatin(amount: float, from_type: str, to_type: str) -> dict:
+    """Convert gelatin between sheets and powder. from/to: 'sheet' or 'powder'.
+
+    `amount` is a sheet count for sheets, or grams for powder (1 sheet ≈ 2 g).
+    """
+    return conditions.convert_gelatin(amount, from_type, to_type)
+
+
+@mcp.tool()
+def humidity_tip(humidity_percent: float | None = None) -> dict:
+    """Dough/batter advice for the day's relative humidity."""
+    return conditions.humidity_tip(humidity_percent)
+
+
+@mcp.tool()
+def oven_calibration(set_temp: float, actual_temp: float, target_temp: float,
+                     unit: str = "C") -> dict:
+    """Given your oven's measured error, the dial setting to hit a target temp."""
+    return conditions.oven_calibration(set_temp, actual_temp, target_temp, unit)
+
+
+# --------------------------------------------------------------------------- #
+# Pan scaling
+# --------------------------------------------------------------------------- #
+@mcp.tool()
+def scale_for_pan(from_pan: str, to_pan: str) -> dict:
+    """Scale factor to move a recipe between pan sizes by surface area.
+
+    Pan specs in cm: 'round:23', 'square:20', 'rect:23x33'.
+    """
+    return pans.scale_for_pan(from_pan, to_pan)
+
+
+@mcp.tool()
+def scaling_caveats(factor: float) -> dict:
+    """What doesn't scale linearly when multiplying a recipe (leavening, salt, time)."""
+    return scaling.scaling_caveats(factor)
 
 
 # --------------------------------------------------------------------------- #
